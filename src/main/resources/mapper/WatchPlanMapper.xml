@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+ <mapper namespace="com.ioe.zhy.dao.WatchPlanDao">
+ 	
+	<insert id="addWatchPlan" parameterType="com.ioe.zhy.entity.WatchPlan">
+	insert into t_watch_plan(plan_id,area_id,start_time,end_time,start_real_time
+	,end_real_time,watcher_id,leader_id,type)
+	 values(#{plan_id},#{area_id},#{start_time},#{end_time},
+	#{start_real_time},#{end_real_time},#{watcher_id},#{leader_id},#{type})
+	
+	</insert>
+
+	
+</mapper>
