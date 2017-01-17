@@ -3,13 +3,16 @@
  */
 package com.ioe.zhy.serviceImpl;
 
+import java.util.Random;
+
 import javax.annotation.Resource;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
+import com.ioe.common.util.ZRIGenerater;
 import com.ioe.zhy.dao.WatchPlanDao;
 import com.ioe.zhy.entity.WatchPlan;
 import com.ioe.zhy.service.WatchManageService;
@@ -29,6 +32,9 @@ public class WatchManageServiceImpl implements WatchManageService{
 	private final Logger LOG = LoggerFactory
 			.getLogger(WatchManageService.class);
 	
+
+	
+	private static final String SERVICE_NAME = "zhy/t_WatchManageService";
 	
 	@Resource
 	private WatchPlanDao watchPlanDao;
@@ -39,6 +45,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 		
 		try {
 			WatchPlan  watchPlan=new WatchPlan();
+			watchPlan.setPlan_id(ZRIGenerater.generate(SERVICE_NAME));
 			watchPlan.setArea_id(area_id);
 			watchPlan.setStart_time(start_time);
 			watchPlan.setEnd_time(end_time);
@@ -49,6 +56,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 			watchPlan.setType(type);
 			watchPlanDao.addWatchPlan(watchPlan);
 		} catch (Exception e) {
+			e.printStackTrace();
 			LOG.error("addWatchPlan errer");
 			result.setMessage("addWatchPlan errer");
 		}	
