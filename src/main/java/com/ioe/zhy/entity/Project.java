@@ -14,6 +14,7 @@ public class Project {
     private String powerClient_id;
     private String electrician_id;
     private String service_company_id;
+    private long sys_create_time=System.currentTimeMillis();
 
     public long getId() {
         return id;
@@ -93,5 +94,13 @@ public class Project {
 
     public void setService_company_id(String service_company_id) {
         this.service_company_id = service_company_id;
+    }
+
+    public long getSys_create_time() {
+        return sys_create_time;
+    }
+
+    public void setSys_create_time(long sys_create_time) {
+        this.sys_create_time = sys_create_time;
     }
 }

@@ -15,6 +15,6 @@
 	
     <dubbo:service ref="watchManageService"  interface="com.ioe.zhy.service.WatchManageService" version="1.0.0" timeout="30000" />
 	
-	
+	<dubbo:service interface="com.ioe.zhy.service.ProjectService" version="1.0.0" timeout="30000" ref="projectService" />
 
 </beans>

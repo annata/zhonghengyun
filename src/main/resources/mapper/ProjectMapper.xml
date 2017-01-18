@@ -6,10 +6,10 @@
 
     <insert id="addProject" parameterType="com.ioe.zhy.entity.Project">
         insert into t_project_record(record_id,category,content,result,status
-        ,create_time,powerClient_id,electrician_id,service_company_id)
+        ,create_time,powerClient_id,electrician_id,service_company_id,sys_create_time)
         values(#{record_id},#{category},#{content},#{result},
-        #{status},#{create_time},#{powerClient_id},#{electrician_id},#{service_company_id})
-</insert>
+        #{status},#{create_time},#{powerClient_id},#{electrician_id},#{service_company_id},#{sys_create_time})
+    </insert>
     <update id="updateProject" parameterType="com.ioe.zhy.entity.Project">
         UPDATE t_project_record SET category=#{category},content=#{content},result=#{result},status=#{status}
         ,powerClient_id=#{powerClient_id},electrician_id=#{electrician_id},service_company_id=#{service_company_id}
