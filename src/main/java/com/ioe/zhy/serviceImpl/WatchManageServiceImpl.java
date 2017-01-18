@@ -3,6 +3,7 @@
  */
 package com.ioe.zhy.serviceImpl;
 
+import java.util.Date;
 import java.util.Random;
 
 import javax.annotation.Resource;
@@ -11,13 +12,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
+
 import com.ioe.common.util.Constants;
 import com.ioe.common.util.ZRIGenerater;
 import com.ioe.zhy.dao.WatchPlanDao;
 import com.ioe.zhy.entity.WatchPlan;
+import com.ioe.zhy.entity.WatchRecord;
 import com.ioe.zhy.service.WatchManageService;
 import com.ioe.zhy.util.DataResult;
+import com.ioe.zhy.util.ListResult;
+import com.ioe.zhy.util.PageResult;
 import com.ioe.zhy.util.Result;
 
 import org.slf4j.Logger;
@@ -57,6 +61,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 			watchPlan.setLeader_id(leaderId);
 			watchPlan.setType(type);
 			watchPlan.setSys_hash("1");
+			watchPlan.setSys_create_time(new Date());;
 			watchPlanDao.addWatchPlan(watchPlan);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -100,8 +105,9 @@ public class WatchManageServiceImpl implements WatchManageService{
 	public Result deleteWatchPlan(String planId) {
 		Result result =new Result();
 		try {
-			System.out.println(planId);
+		
 			watchPlanDao.deleteWatchPlan(planId,"1");
+			watchPlanDao.deleteWatchRecord(planId, "1");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("deleteWatchPlan error");
@@ -132,11 +138,13 @@ public class WatchManageServiceImpl implements WatchManageService{
 
 
 	@Override
-	public Result completeWatch(String planId) {
+	public Result completeWatch(String planId,String content) {
 		Result result =new Result();
+		
 		try {
 			long end_real_time=System.currentTimeMillis();
 			watchPlanDao.completeWatch(end_real_time, planId,"1");
+		   watchPlanDao.addWatchRecord(ZRIGenerater.generate(SERVICE_NAME), planId, "2", content, new Date());
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("completeWatch error");
@@ -144,6 +152,65 @@ public class WatchManageServiceImpl implements WatchManageService{
 			result.setMessage("completeWatch error");
 		}
 		return result;
+	}
+
+
+	
+	@Override
+	public ListResult<WatchPlan> getWatchPlan(String userId) {
+		ListResult<WatchPlan>  listResult=new  ListResult<WatchPlan>();
+		try {
+			listResult.setDataList(watchPlanDao.getWatchPlan(userId, System.currentTimeMillis()));
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOG.error("getWatchPlan error");
+			listResult.setCode(Constants.SERVICE_ERROR);
+			listResult.setMessage("getWatchPlan error");
+		}
+		
+		
+		
+		
+		return listResult;
+	}
+
+
+	
+	@Override
+	public PageResult<WatchPlan> getHistoryWatchPlan(String userId, Integer pageIndex, Integer pageSize) {
+		PageResult<WatchPlan> pageResult=new PageResult<>();
+		try {
+			int startNumber=(pageIndex-1)*pageSize;
+			pageResult.setLength(pageSize);
+			pageResult.setStart(pageIndex);
+			pageResult.setDataList(watchPlanDao.getHistoryWatchPlan(userId, System.currentTimeMillis(), startNumber,pageSize));
+			pageResult.setTotalCount(watchPlanDao.selectHistoryWatchPlanCountByUserId(userId, System.currentTimeMillis()));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOG.error("getHistoryWatchPlan error");
+			pageResult.setCode(Constants.SERVICE_ERROR);
+			pageResult.setMessage("getHistoryWatchPlan error");
+		}
+		return pageResult;
+	}
+
+
+
+	@Override
+	public DataResult<WatchRecord> getWatchRecordByPlanId(String planId) {
+	   DataResult<WatchRecord> dataResult=new DataResult<>();
+	   try {
+
+		   dataResult.setData(watchPlanDao.getWatchRecordByPlanId(planId) );
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOG.error("watchManage error");
+			dataResult.setCode(Constants.SERVICE_ERROR);
+			dataResult.setMessage("watchManage error");
+		}
+		return dataResult;
 	}
 	
 	

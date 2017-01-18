@@ -3,12 +3,13 @@
  */
 package com.ioe.zhy.entity;
 
+import java.util.Date;
+
 /**
  * @author hq
  *
  */
 public class WatchPlan {
-	private long id;
 	private String plan_id;		//计划id
 	private String area_id;     //区域id，电工值班计划用的到
 	private long start_time;    //计划开始时间
@@ -19,7 +20,21 @@ public class WatchPlan {
 	private long leader_id;              //值班领导
 	private boolean type;              //值班计划类型，0表示客服值班计划，1表示电工值班计划
 	private boolean sys_is_delete;     //是否删除
-	private boolean sys_last_modified_time;    //最后一次修改时间
+	private Date sys_last_modified_time;    //最后一次修改时间
+	private Date sys_create_time;           //添加时间
+
+	public Date getSys_last_modified_time() {
+		return sys_last_modified_time;
+	}
+	public void setSys_last_modified_time(Date sys_last_modified_time) {
+		this.sys_last_modified_time = sys_last_modified_time;
+	}
+	public Date getSys_create_time() {
+		return sys_create_time;
+	}
+	public void setSys_create_time(Date sys_create_time) {
+		this.sys_create_time = sys_create_time;
+	}
 	private String sys_hash;                     
 	public String getSys_hash() {
 		return sys_hash;
@@ -33,19 +48,9 @@ public class WatchPlan {
 	public void setSys_is_delete(boolean sys_is_delete) {
 		this.sys_is_delete = sys_is_delete;
 	}
-	public boolean isSys_last_modified_time() {
-		return sys_last_modified_time;
-	}
-	public void setSys_last_modified_time(boolean sys_last_modified_time) {
-		this.sys_last_modified_time = sys_last_modified_time;
-	}
 
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
+
+	
 	public String getPlan_id() {
 		return plan_id;
 	}
@@ -102,10 +107,13 @@ public class WatchPlan {
 	}
 	@Override
 	public String toString() {
-		return "WatchPlan [id=" + id + ", plan_id=" + plan_id + ", area_id=" + area_id + ", start_time=" + start_time
-				+ ", end_time=" + end_time + ", start_real_time=" + start_real_time + ", end_real_time=" + end_real_time
-				+ ", watcher_id=" + watcher_id + ", leader_id=" + leader_id + ", type=" + type + "]";
+		return "WatchPlan [plan_id=" + plan_id + ", area_id=" + area_id + ", start_time=" + start_time + ", end_time="
+				+ end_time + ", start_real_time=" + start_real_time + ", end_real_time=" + end_real_time
+				+ ", watcher_id=" + watcher_id + ", leader_id=" + leader_id + ", type=" + type + ", sys_is_delete="
+				+ sys_is_delete + ", sys_last_modified_time=" + sys_last_modified_time + ", sys_create_time="
+				+ sys_create_time + ", sys_hash=" + sys_hash + "]";
 	}
+
 
 	
 

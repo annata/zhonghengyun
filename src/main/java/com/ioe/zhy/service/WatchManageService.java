@@ -4,7 +4,10 @@
 package com.ioe.zhy.service;
 
 import com.ioe.zhy.entity.WatchPlan;
+import com.ioe.zhy.entity.WatchRecord;
 import com.ioe.zhy.util.DataResult;
+import com.ioe.zhy.util.ListResult;
+import com.ioe.zhy.util.PageResult;
 import com.ioe.zhy.util.Result;
 
 /**
@@ -61,9 +64,8 @@ public interface WatchManageService {
 	
 	/**
 	 * 接班
-	 * @param planId
-	 * @return   
-	 * @throws
+	 * @param planId 用户id
+	 * @return    操作结果，成功时包含监控项唯一标识RI
 	 */
 	public  Result beginWatch(String planId);
 	
@@ -71,9 +73,28 @@ public interface WatchManageService {
 	/**
 	 * 交班
 	 * @param planId
-	 * @return   
-	 * @throws
+	 * @return    操作结果，成功时包含监控项唯一标识RI
 	 */
-	public Result completeWatch(String planId);
+	public Result completeWatch(String planId,String content);
 	
+	/**
+	 * 查询值班计划
+	 * @param userId   用户id
+	 * @return   操作结果，成功时包含监控项唯一标识RI
+	 */
+	public ListResult<WatchPlan> getWatchPlan(String userId);
+	
+	
+	
+	/**
+	 * 查询历史值班
+	 * @param userId 用户id
+	 * @param pageIndex  显示第几页 
+	 * @param pageSize  每页大小
+	 * @return   
+	 */
+	public PageResult<WatchPlan> getHistoryWatchPlan(String userId,Integer  pageIndex,Integer pageSize);
+	
+
+	public DataResult<WatchRecord> getWatchRecordByPlanId(String planId);
 }

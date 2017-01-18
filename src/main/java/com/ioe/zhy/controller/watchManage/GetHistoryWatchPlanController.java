@@ -18,18 +18,19 @@ import com.ioe.zhy.util.Result;
  */
 @Controller  
 @RequestMapping("/watchManage") 
-public class CompleteWatchController {
+public class GetHistoryWatchPlanController {
+	
 	@Resource
 	private WatchManageService watchManageService;
 	
-	@RequestMapping("/completeWatch")
+	@RequestMapping("/getHistoryWatchPlan")
 	@ResponseBody
-	public Result execute(String planId,String content){
+	public Result execute(String userId,Integer pageIndex,Integer pageSize){
 	
-		Result dataResult=watchManageService.completeWatch(planId, content);
+		Result dataResult=watchManageService.getHistoryWatchPlan(userId, pageIndex, pageSize);
 	
 		return dataResult;	
-		
-	}
+
 }
 
+}
