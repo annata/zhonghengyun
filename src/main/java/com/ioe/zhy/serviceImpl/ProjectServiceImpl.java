@@ -22,6 +22,17 @@ public class ProjectServiceImpl implements ProjectService {
     @Resource
     private ProjectDao projectDao;
 
+    /**
+     * 添加工程接入
+     * @param category 分类编码
+     * @param content 检查内容
+     * @param result 检查结果
+     * @param status 状态
+     * @param powerClientId 用电客户id
+     * @param electricianId 电工id
+     * @param serviceCompanyId 服务商id
+     * @return 插入结果
+     */
     @Override
     public Result saveProjectRecord(String category, String content, String result, boolean status, String powerClientId, String electricianId, String serviceCompanyId) {
         Result result1 = new Result();
@@ -44,6 +55,18 @@ public class ProjectServiceImpl implements ProjectService {
         return result1;
     }
 
+    /**
+     * 更新工程接入
+     * @param recordId 记录id
+     * @param category 分类编码
+     * @param content 检查内容
+     * @param result 检查结果
+     * @param status 状态
+     * @param powerClientId 用电客户id
+     * @param electricianId 电工id
+     * @param serviceCompanyId 服务商id
+     * @return 更新结果
+     */
     @Override
     public Result updateProjectRecord(String recordId, String category, String content, String result, boolean status, String powerClientId, String electricianId, String serviceCompanyId) {
         Result result1 = new Result();
@@ -67,6 +90,11 @@ public class ProjectServiceImpl implements ProjectService {
         return result1;
     }
 
+    /**
+     * 工程接入查询
+     * @param powerClientId 用电客户id
+     * @return 查询结果
+     */
     @Override
     public ListResult<Project> getProjectRecord(String powerClientId) {
         ListResult<Project> result = new ListResult<>();
