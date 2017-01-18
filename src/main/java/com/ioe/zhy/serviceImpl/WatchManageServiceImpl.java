@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
+import com.ioe.common.util.Constants;
 import com.ioe.common.util.ZRIGenerater;
 import com.ioe.zhy.dao.WatchPlanDao;
 import com.ioe.zhy.entity.WatchPlan;
@@ -38,29 +39,108 @@ public class WatchManageServiceImpl implements WatchManageService{
 	
 	@Resource
 	private WatchPlanDao watchPlanDao;
-
-	public Result addWatchPlan(String area_id, long start_time, long end_time, long start_real_time, long end_real_time,
-			long watcher_id, long leader_id, boolean type) {
+	
+	@Override
+	public Result addWatchPlan(String areaId, long startTime, long endTime, long startRealTime, long endRealTime,
+			long watcherId, long leaderId, boolean type) {
 		Result result =new Result();
 		
 		try {
 			WatchPlan  watchPlan=new WatchPlan();
 			watchPlan.setPlan_id(ZRIGenerater.generate(SERVICE_NAME));
-			watchPlan.setArea_id(area_id);
-			watchPlan.setStart_time(start_time);
-			watchPlan.setEnd_time(end_time);
-			watchPlan.setStart_real_time(start_real_time);
-			watchPlan.setEnd_real_time(end_real_time);
-			watchPlan.setWatcher_id(watcher_id);
-			watchPlan.setLeader_id(leader_id);
+			watchPlan.setArea_id(areaId);
+			watchPlan.setStart_time(startTime);
+			watchPlan.setEnd_time(endTime);
+			watchPlan.setStart_real_time(startRealTime);
+			watchPlan.setEnd_real_time(endRealTime);
+			watchPlan.setWatcher_id(watcherId);
+			watchPlan.setLeader_id(leaderId);
 			watchPlan.setType(type);
 			watchPlanDao.addWatchPlan(watchPlan);
 		} catch (Exception e) {
 			e.printStackTrace();
-			LOG.error("addWatchPlan errer");
-			result.setMessage("addWatchPlan errer");
+			LOG.error("addWatchPlan error");
+			result.setCode(Constants.SERVICE_ERROR);
+			result.setMessage("addWatchPlan error");
 		}	
 		return  result;
 	}
+
+	
+	@Override
+	public Result updateWatchPlan(String planId, String areaId, long startTime, long endTime, long startRealTime, long endRealTime,
+			long watcherId, long leaderId, boolean type) {
+		Result result =new Result();
+		try {
+			WatchPlan  watchPlan=new WatchPlan();
+			watchPlan.setArea_id(areaId);
+			watchPlan.setStart_time(startTime);
+			watchPlan.setEnd_time(endTime);
+			watchPlan.setStart_real_time(startRealTime);
+			watchPlan.setEnd_real_time(endRealTime);
+			watchPlan.setWatcher_id(watcherId);
+			watchPlan.setLeader_id(leaderId);
+			watchPlan.setType(type);
+			watchPlanDao.updateWatchPlan(watchPlan);
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOG.error("updateWatchPlan error");
+			result.setCode(Constants.SERVICE_ERROR);
+			result.setMessage("updateWatchPlan error");
+		}	
+		return  result;
+	}
+
+
+	@Override
+	public Result deleteWatchPlan(String planId) {
+		Result result =new Result();
+		try {
+			watchPlanDao.deleteWatchPlan(planId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOG.error("deleteWatchPlan error");
+			result.setCode(Constants.SERVICE_ERROR);
+			result.setMessage("deleteWatchPlan error");
+		}
+		return result;
+	}
+
+
+
+	@Override
+	public Result beginWatch(String planId) {
+		Result result =new Result();
+		
+		try {
+			long start_real_time=System.currentTimeMillis();
+			watchPlanDao.beginWatch(start_real_time, planId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOG.error("beginWatch error");
+			result.setCode(Constants.SERVICE_ERROR);
+			result.setMessage("beginWatch error");
+		}
+		return result;
+	}
+
+
+
+	@Override
+	public Result completeWatch(String planId) {
+		Result result =new Result();
+		try {
+			long end_real_time=System.currentTimeMillis();
+			watchPlanDao.completeWatch(end_real_time, planId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOG.error("completeWatch error");
+			result.setCode(Constants.SERVICE_ERROR);
+			result.setMessage("completeWatch error");
+		}
+		return result;
+	}
+	
+	
 
 }

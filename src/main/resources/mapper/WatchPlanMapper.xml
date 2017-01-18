@@ -3,7 +3,9 @@
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
  <mapper namespace="com.ioe.zhy.dao.WatchPlanDao">
- 	
+ 
+ 
+ 	<!-- 添加值班计划 -->	
 	<insert id="addWatchPlan" parameterType="com.ioe.zhy.entity.WatchPlan">
 	insert into t_watch_plan(plan_id,area_id,start_time,end_time,start_real_time
 	,end_real_time,watcher_id,leader_id,type)
@@ -11,6 +13,43 @@
 	#{start_real_time},#{end_real_time},#{watcher_id},#{leader_id},#{type})
 	
 	</insert>
+	
+	
+	<!-- 更改值班计划 -->
+	<update id="updateWatchPlan" parameterType="com.ioe.zhy.entity.WatchPlan">
+	update  t_watch_plan <set>
+	<if test="area_id!=null">area_id=#{area_id},</if>
+	<if test="start_time!=null">start_time=#{start_time},</if>
+	<if test="end_time!=null">end_time=#{end_time},</if>
+	<if test="start_real_time!=null">start_real_time=#{start_real_time},</if>
+	<if test="end_real_time!=null">end_real_time=#{end_real_time},</if>
+	<if test="watcher_id!=null">watcher_id=#{watcher_id},</if>
+	<if test="leader_id!=null">leader_id=#{leader_id},</if>
+	<if test="type!=null">type=#{type}</if>
+	</set>  where plan_id=#{plan_id}
+	</update>
 
+	<!-- 删除值班计划 -->
+	<delete id="deleteWatchPlan" parameterType="String">
+	delete  from t_watch_plan where plan_id=#{plan_id}
+	</delete>
+	
+	<!-- 接班 -->
+	<update id="beginWatch" >
+	update t_watch_plan <set>
+	<if test="start_real_time!=null">start_real_time=#{start_real_time}</if>
+	</set> where plan_id=#{plan_id}
+	</update>
+	
+	<!-- 交班 -->
+	<update id="completeWatch">
+		update t_watch_plan <set>
+	<if test="end_real_time!=null">end_real_time=#{end_real_time}</if>
+	</set> where plan_id=#{plan_id}
+	</update>
+	
+	
+
+	
 	
 </mapper>

@@ -9,7 +9,7 @@ package com.ioe.zhy.entity;
  */
 public class WatchPlan {
 	private long id;
-	private String plan_id;
+	private String plan_id;		//计划id
 	private String area_id;     //区域id，电工值班计划用的到
 	private long start_time;    //计划开始时间
 	private long end_time;      //计划结束时间   
