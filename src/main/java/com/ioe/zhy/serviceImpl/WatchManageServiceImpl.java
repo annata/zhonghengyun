@@ -56,6 +56,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 			watchPlan.setWatcher_id(watcherId);
 			watchPlan.setLeader_id(leaderId);
 			watchPlan.setType(type);
+			watchPlan.setSys_hash("1");
 			watchPlanDao.addWatchPlan(watchPlan);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,6 +74,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 		Result result =new Result();
 		try {
 			WatchPlan  watchPlan=new WatchPlan();
+			watchPlan.setPlan_id(planId);
 			watchPlan.setArea_id(areaId);
 			watchPlan.setStart_time(startTime);
 			watchPlan.setEnd_time(endTime);
@@ -81,6 +83,8 @@ public class WatchManageServiceImpl implements WatchManageService{
 			watchPlan.setWatcher_id(watcherId);
 			watchPlan.setLeader_id(leaderId);
 			watchPlan.setType(type);
+			watchPlan.setSys_hash("1");
+			
 			watchPlanDao.updateWatchPlan(watchPlan);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,7 +100,8 @@ public class WatchManageServiceImpl implements WatchManageService{
 	public Result deleteWatchPlan(String planId) {
 		Result result =new Result();
 		try {
-			watchPlanDao.deleteWatchPlan(planId);
+			System.out.println(planId);
+			watchPlanDao.deleteWatchPlan(planId,"1");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("deleteWatchPlan error");
@@ -114,7 +119,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 		
 		try {
 			long start_real_time=System.currentTimeMillis();
-			watchPlanDao.beginWatch(start_real_time, planId);
+			watchPlanDao.beginWatch(start_real_time, planId,"1");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("beginWatch error");
@@ -131,7 +136,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 		Result result =new Result();
 		try {
 			long end_real_time=System.currentTimeMillis();
-			watchPlanDao.completeWatch(end_real_time, planId);
+			watchPlanDao.completeWatch(end_real_time, planId,"1");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("completeWatch error");

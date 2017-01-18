@@ -8,9 +8,9 @@
  	<!-- 添加值班计划 -->	
 	<insert id="addWatchPlan" parameterType="com.ioe.zhy.entity.WatchPlan">
 	insert into t_watch_plan(plan_id,area_id,start_time,end_time,start_real_time
-	,end_real_time,watcher_id,leader_id,type)
+	,end_real_time,watcher_id,leader_id,type,sys_hash)
 	 values(#{plan_id},#{area_id},#{start_time},#{end_time},
-	#{start_real_time},#{end_real_time},#{watcher_id},#{leader_id},#{type})
+	#{start_real_time},#{end_real_time},#{watcher_id},#{leader_id},#{type},#{sys_hash})
 	
 	</insert>
 	
@@ -25,31 +25,47 @@
 	<if test="end_real_time!=null">end_real_time=#{end_real_time},</if>
 	<if test="watcher_id!=null">watcher_id=#{watcher_id},</if>
 	<if test="leader_id!=null">leader_id=#{leader_id},</if>
-	<if test="type!=null">type=#{type}</if>
+	<if test="type!=null">type=#{type},</if>
+	<if test="sys_hash!=null">sys_hash=#{sys_hash}</if>
 	</set>  where plan_id=#{plan_id}
 	</update>
 
 	<!-- 删除值班计划 -->
-	<delete id="deleteWatchPlan" parameterType="String">
-	delete  from t_watch_plan where plan_id=#{plan_id}
-	</delete>
+	<update id="deleteWatchPlan" parameterType="String">
+		update  t_watch_plan
+		<set>
+		<if test="sys_hash!=null">sys_hash=#{sys_hash},</if>
+		sys_is_delete=1
+		</set>
+		where plan_id=#{plan_id}
+	</update>
+	
 	
 	<!-- 接班 -->
 	<update id="beginWatch" >
 	update t_watch_plan <set>
+	<if test="sys_hash!=null">sys_hash=#{sys_hash},</if>
 	<if test="start_real_time!=null">start_real_time=#{start_real_time}</if>
+	
 	</set> where plan_id=#{plan_id}
 	</update>
 	
 	<!-- 交班 -->
 	<update id="completeWatch">
 		update t_watch_plan <set>
+		<if test="sys_hash!=null">sys_hash=#{sys_hash},</if>
 	<if test="end_real_time!=null">end_real_time=#{end_real_time}</if>
 	</set> where plan_id=#{plan_id}
 	</update>
 	
+	<!-- 添加值班记录 -->
+	<insert id="addWatchRecord">
+	insert  into t_watch_record(record_id,plan_id,content) values(#{record_id},#{plan_id},#{content}) 
+	</insert>
 	
-
-	
+	<!-- 删除值班记录 -->
+	<delete id="deleteWatchRecord" parameterType="String">
+	delete from t_watch_record where plan_id=#{plan_id}
+	</delete>
 	
 </mapper>

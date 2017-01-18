@@ -18,6 +18,28 @@ public class WatchPlan {
 	private long watcher_id;          //值班人
 	private long leader_id;              //值班领导
 	private boolean type;              //值班计划类型，0表示客服值班计划，1表示电工值班计划
+	private boolean sys_is_delete;     //是否删除
+	private boolean sys_last_modified_time;    //最后一次修改时间
+	private String sys_hash;                     
+	public String getSys_hash() {
+		return sys_hash;
+	}
+	public void setSys_hash(String sys_hash) {
+		this.sys_hash = sys_hash;
+	}
+	public boolean isSys_is_delete() {
+		return sys_is_delete;
+	}
+	public void setSys_is_delete(boolean sys_is_delete) {
+		this.sys_is_delete = sys_is_delete;
+	}
+	public boolean isSys_last_modified_time() {
+		return sys_last_modified_time;
+	}
+	public void setSys_last_modified_time(boolean sys_last_modified_time) {
+		this.sys_last_modified_time = sys_last_modified_time;
+	}
+
 	public long getId() {
 		return id;
 	}
