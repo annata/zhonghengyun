@@ -22,7 +22,7 @@ public class WatchPlan {
 	private boolean sys_is_delete;     //是否删除
 	private Date sys_last_modified_time;    //最后一次修改时间
 	private Date sys_create_time;           //添加时间
-
+	private String sys_hash;            
 	public Date getSys_last_modified_time() {
 		return sys_last_modified_time;
 	}
@@ -35,7 +35,7 @@ public class WatchPlan {
 	public void setSys_create_time(Date sys_create_time) {
 		this.sys_create_time = sys_create_time;
 	}
-	private String sys_hash;                     
+	                   
 	public String getSys_hash() {
 		return sys_hash;
 	}

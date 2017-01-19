@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.ioe.zhy.dao.ElectricianDao">
+
+	<!-- 添加电工 -->
+   <insert id="addElectrician" parameterType="com.ioe.zhy.entity.Electrician">
+   insert into t_electrician(electrician_id,network_licence,special_certificate
+   ,professional_credential,area_id,account_id,employee_id,sys_hash,sys_create_time)
+   values(#{electrician_id},#{network_licence},#{special_certificate},
+   #{professional_credential},#{area_id},#{account_id},#{employee_id},#{sys_hash}
+   ,#{sys_create_time})
+   </insert>
+   
+   <!-- 根据电工id编辑电工 -->
+   <update id="updateElectrician" parameterType="com.ioe.zhy.entity.Electrician">
+   update t_electrician <set>
+   <if test="network_licence!=null">network_licence=#{network_licence},</if>
+   <if test="special_certificate!=null">special_certificate=#{special_certificate},</if>
+   <if test="professional_credential!=null">professional_credential=#{professional_credential},</if>
+   <if test="area_id!=null">area_id=#{area_id},</if>
+   <if test="account_id!=null">account_id=#{account_id},</if>
+   <if test="employee_id!=null">employee_id=#{employee_id},</if>
+   <if test="sys_hash!=null">sys_hash=#{sys_hash}</if>
+   </set> where electrician_id=#{electrician_id}
+   </update>
+	
+	<!-- 删除电工 -->
+	<update id="deleteElectrician">
+	update t_electrician 
+		<set>
+		<if test="sys_hash!=null">sys_hash=#{sys_hash},</if>
+		sys_is_delete=1
+		</set>
+	  where	electrician_id=#{electrician_id}
+	</update>
+	
+	
+	<!-- 查询电工信息 -->
+	<select id="getElectricianInfo" parameterType="String" resultType="com.ioe.zhy.entity.Electrician">
+	select * from t_electrician where sys_is_delete=0 and  electrician_id=#{electrician_id}
+	</select>
+	
+	<!-- 查询指定公司下的电工列表 -->
+	<select id="getElectricianList" parameterType="String" resultType="com.ioe.zhy.entity.Electrician">
+	select e.* from  t_electrician  e join  t_area  a on  e.area_id=a.area_id and  e.sys_is_delete=0 and a.company_id=#{company_id}
+	</select>
+	
+	
+	<!-- 删除指定区域下的电工 -->
+	<update id="deleteElectricianByArea" parameterType="String">
+		update t_electrician 
+		<set>
+		sys_is_delete=1
+		</set>
+	  where	area_id=#{area_id}
+	</update>
+	
+	<update id="electricianAndArea" >
+		update t_electrician 
+		<set>
+		<if test="sys_hash!=null">sys_hash=#{sys_hash},</if>
+		area_id=#{area_id}
+		</set>
+	  where		electrician_id=#{electrician_id}
+	
+	</update>
+
+</mapper>
