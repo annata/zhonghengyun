@@ -10,7 +10,7 @@ public class Area {
     private String area_id;
     private String company_id;
     private String area_name;
-    private Date sys_create_time;
+    private Date sys_create_time = new Date();
     private boolean sys_is_delete;
 
     public long getId() {

@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 @Service("projectService")
 @Transactional
 public class ProjectServiceImpl implements ProjectService {
-    private static final String SERVICE_NAME = "zhy/t_WatchProjectService";
+    private static final String SERVICE_NAME = "zhy/t_ProjectService";
     @Resource
     private ProjectDao projectDao;
 

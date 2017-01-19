@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.ioe.zhy.dao.AreaDao">
+
+    <insert id="add" parameterType="com.ioe.zhy.entity.Area">
+        insert into t_area(area_id,company_id,area_name,sys_create_time)
+        values(#{area_id},#{company_id},#{area_name},#{sys_create_time})
+    </insert>
+    <update id="update" parameterType="com.ioe.zhy.entity.Area">
+        UPDATE t_area SET area_name=#{area_name}
+        WHERE area_id=#{area_id}
+    </update>
+    <update id="delete" parameterType="String">
+        UPDATE t_area SET sys_is_delete=1
+        WHERE area_id=#{areaId}
+    </update>
+    <select id="getByCompanyId" parameterType="String" resultType="Map">
+        SELECT area_id,area_name FROM t_area WHERE company_id=#{companyId} AND sys_is_delete=0
+    </select>
+    <select id="get" parameterType="String" resultType="Map">
+        SELECT area_id,area_name FROM t_area WHERE area_id=#{areaId} AND sys_is_delete=0
+    </select>
+</mapper>
