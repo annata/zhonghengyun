@@ -55,4 +55,40 @@ public class AreaController {
         result.put("code", result1);
         return result;
     }
+
+    @RequestMapping("/bindElectricianAndArea")
+    @ResponseBody
+    public Map bindElectricianAndArea(String electricianId, String areaId) {
+        Result result1 = areaService.bindElectricianAndArea(electricianId, areaId);
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", result1);
+        return result;
+    }
+
+    @RequestMapping("/unBindElectricianAndArea")
+    @ResponseBody
+    public Map unBindElectricianAndArea(String electricianId, String areaId) {
+        Result result1 = areaService.unBindElectricianAndArea(electricianId, areaId);
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", result1);
+        return result;
+    }
+
+    @RequestMapping("/bindPowerClientAndArea")
+    @ResponseBody
+    public Map bindPowerClientAndArea(String powerClientId, String areaId) {
+        Result result1 = areaService.bindPowerClientAndArea(powerClientId, areaId);
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", result1);
+        return result;
+    }
+
+    @RequestMapping("/unBindPowerClientAndArea")
+    @ResponseBody
+    public Map unBindPowerClientAndArea(String powerClientId, String areaId) {
+        Result result1 = areaService.unBindPowerClientAndArea(powerClientId, areaId);
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", result1);
+        return result;
+    }
 }

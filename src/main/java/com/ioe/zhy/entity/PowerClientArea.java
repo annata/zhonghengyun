@@ -9,7 +9,7 @@ public class PowerClientArea {
     private long id;
     private String powerClient_id;
     private String area_id;
-    private Date sys_create_time;
+    private Date sys_create_time=new Date();
 
     public long getId() {
         return id;

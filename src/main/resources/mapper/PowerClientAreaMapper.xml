@@ -4,15 +4,19 @@
 
 <mapper namespace="com.ioe.zhy.dao.PowerClientAreaDao">
 
-    <insert id="add" parameterType="String">
-        insert into r_powerClient_area(powerClient_id,area_id)
-        values(#{powerClient_id},#{area_id})
+    <insert id="add" parameterType="com.ioe.zhy.entity.PowerClientArea">
+        insert into r_powerClient_area(powerClient_id,area_id,sys_create_time)
+        values(#{powerClient_id},#{area_id},#{sys_create_time})
     </insert>
-    <update id="delete" parameterType="String">
+    <update id="delete" parameterType="com.ioe.zhy.entity.PowerClientArea">
         UPDATE r_powerClient_area SET sys_is_delete=1
         WHERE powerClient_id=#{powerClient_id} AND area_id=#{area_id}
     </update>
-    <select id="get" parameterType="String" resultType="com.ioe.zhy.entity.PowerClientArea">
+    <update id="deleteByArea" parameterType="String">
+        UPDATE r_powerClient_area SET sys_is_delete=1
+        WHERE area_id=#{area_id}
+    </update>
+    <select id="get" parameterType="com.ioe.zhy.entity.PowerClientArea" resultType="com.ioe.zhy.entity.PowerClientArea">
         SELECT * FROM r_powerClient_area WHERE powerClient_id=#{powerClient_id} AND area_id=#{area_id} AND sys_is_delete=0
     </select>
 </mapper>

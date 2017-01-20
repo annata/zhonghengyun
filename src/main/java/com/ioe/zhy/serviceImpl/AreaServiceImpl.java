@@ -67,6 +67,8 @@ public class AreaServiceImpl implements AreaService {
         Result result1 = new Result();
 
         try {
+            powerClientAreaDao.deleteByArea(areaId);
+            electricianDao.deleteElectricianByArea(areaId);
             if (areaDao.delete(areaId)) return result1;
         } catch (Exception e) {
         }
@@ -99,16 +101,22 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public Result bindPowerClientAndArea(String powerClientId, String areaId) {
-        PowerClientArea powerClientArea = powerClientAreaDao.get(areaId, powerClientId);
-        if(powerClientArea==null)
-        powerClientAreaDao.add(areaId,powerClientId);
+        PowerClientArea powerClientArea = new PowerClientArea(), t;
+        powerClientArea.setPowerClient_id(powerClientId);
+        powerClientArea.setArea_id(areaId);
+        t = powerClientAreaDao.get(powerClientArea);
+        if (t == null)
+            powerClientAreaDao.add(powerClientArea);
         Result result = new Result();
         return result;
     }
 
     @Override
     public Result unBindPowerClientAndArea(String powerClientId, String areaId) {
-        powerClientAreaDao.delete(areaId,powerClientId);
+        PowerClientArea powerClientArea = new PowerClientArea();
+        powerClientArea.setPowerClient_id(powerClientId);
+        powerClientArea.setArea_id(areaId);
+        powerClientAreaDao.delete(powerClientArea);
         Result result = new Result();
         return result;
     }
