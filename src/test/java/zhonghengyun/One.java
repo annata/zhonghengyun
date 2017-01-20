@@ -25,8 +25,9 @@ public class One {
 	
 	@Test
 	public void test(){
-		electricianDao.deleteElectricianByArea("e");
-		electricianDao.electricianAndArea("zhy/t_AssetAccountService:1484797223780", "314", null);
+//		electricianDao.deleteElectricianByArea("e");
+//		electricianDao.electricianAndArea("zhy/t_AssetAccountService:1484797223780", "314", null);
+
 	}
 	  
 

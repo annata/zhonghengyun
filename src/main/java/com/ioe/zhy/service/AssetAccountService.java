@@ -59,4 +59,16 @@ public interface AssetAccountService {
 	 * @return   
 	 */
 	public ListResult<Electrician> getElectricianList(String companyId);
+	
+	
+	/**
+	 * 根据指定条件查询电工列表
+	 * @param companyId  公司的id
+	 * @param name   电工名字
+	 * @param netLicence  进网许可证 
+	 * @param specialCertificate  特种作业许可证
+	 * @param professionalCredential  职业资格证书
+	 * @return   
+	 */
+	public ListResult<Electrician>  searchElectrician(String companyId,String name,String netLicence,String specialCertificate,String professionalCredential);
 }

@@ -144,4 +144,22 @@ public class AssetAccountServiceImpl implements AssetAccountService {
 			return listResult;
 	}
 
+
+
+	@Override
+	public ListResult<Electrician> searchElectrician(String companyId, String name, String netLicence,
+			String specialCertificate, String professionalCredential) {
+		ListResult<Electrician>  listResult=new  ListResult<Electrician>();
+		 try{
+			 listResult.setDataList(electricianDao.searchElectrician(companyId, netLicence, specialCertificate, professionalCredential));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				LOG.error("searchElectrician error");
+				listResult.setCode(Constants.SERVICE_ERROR);
+				listResult.setMessage("searchElectrician error");
+			}
+			return listResult;
+	}
+
 }

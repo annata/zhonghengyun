@@ -48,11 +48,12 @@
 	</select>
 	
 	<!-- 查询指定条件的电工列表 -->
-	<select id=""  resultType="com.ioe.zhy.entity.Electrician">
+	<select id="searchElectrician"  resultType="com.ioe.zhy.entity.Electrician">
 	select e.*,a.area_name from  t_electrician  e join  t_area  a on  e.area_id=a.area_id and  e.sys_is_delete=0 
-	<if test="network_licence!=null">and a.network_licence=#{network_licence}</if>	
-	<if test="special_certificate!=null">and a.special_certificate=#{special_certificate}</if>	
-	<if test="professional_credential!=null">and a.professional_credential=#{professional_credential}</if>		
+	<if test="network_licence!=null">and e.network_licence=#{network_licence}</if>	
+	<if test="special_certificate!=null">and e.special_certificate=#{special_certificate}</if>	
+	<if test="professional_credential!=null">and e.professional_credential=#{professional_credential}</if>		
+	<if test="company_id!=null">and a.company_id=#{company_id}</if>
 	</select>
 	
 	
