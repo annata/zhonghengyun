@@ -25,9 +25,9 @@ public class GetHistoryWatchPlanController {
 	
 	@RequestMapping("/getHistoryWatchPlan")
 	@ResponseBody
-	public Result execute(String userId,Integer pageIndex,Integer pageSize){
+	public Result execute(String userId,long startTime,long endTime, Integer  pageIndex,Integer pageSize){
 	
-		Result dataResult=watchManageService.getHistoryWatchPlan(userId, pageIndex, pageSize);
+		Result dataResult=watchManageService.getHistoryWatchPlan(userId, startTime,endTime,pageIndex, pageSize);
 	
 		return dataResult;	
 

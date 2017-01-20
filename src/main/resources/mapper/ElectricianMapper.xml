@@ -39,12 +39,20 @@
 	
 	<!-- 查询电工信息 -->
 	<select id="getElectricianInfo" parameterType="String" resultType="com.ioe.zhy.entity.Electrician">
-	select * from t_electrician where sys_is_delete=0 and  electrician_id=#{electrician_id}
+	select e.*,a.area_name from  t_electrician  e join  t_area  a on  e.area_id=a.area_id and e.electrician_id=#{electrician_id}
 	</select>
 	
 	<!-- 查询指定公司下的电工列表 -->
 	<select id="getElectricianList" parameterType="String" resultType="com.ioe.zhy.entity.Electrician">
-	select e.* from  t_electrician  e join  t_area  a on  e.area_id=a.area_id and  e.sys_is_delete=0 and a.company_id=#{company_id}
+	select e.*,a.area_name from  t_electrician  e join  t_area  a on  e.area_id=a.area_id and  e.sys_is_delete=0 and a.company_id=#{company_id}
+	</select>
+	
+	<!-- 查询指定条件的电工列表 -->
+	<select id=""  resultType="com.ioe.zhy.entity.Electrician">
+	select e.*,a.area_name from  t_electrician  e join  t_area  a on  e.area_id=a.area_id and  e.sys_is_delete=0 
+	<if test="network_licence!=null">and a.network_licence=#{network_licence}</if>	
+	<if test="special_certificate!=null">and a.special_certificate=#{special_certificate}</if>	
+	<if test="professional_credential!=null">and a.professional_credential=#{professional_credential}</if>		
 	</select>
 	
 	
@@ -57,6 +65,7 @@
 	  where	area_id=#{area_id}
 	</update>
 	
+	<!-- 更改电工和区域关系 -->
 	<update id="electricianAndArea" >
 		update t_electrician 
 		<set>

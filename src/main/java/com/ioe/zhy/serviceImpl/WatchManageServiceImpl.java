@@ -177,13 +177,13 @@ public class WatchManageServiceImpl implements WatchManageService{
 
 	
 	@Override
-	public PageResult<WatchPlan> getHistoryWatchPlan(String userId, Integer pageIndex, Integer pageSize) {
+	public PageResult<WatchPlan> getHistoryWatchPlan(String userId,long startTime,long endTime, Integer  pageIndex,Integer pageSize) {
 		PageResult<WatchPlan> pageResult=new PageResult<>();
 		try {
 			int startNumber=(pageIndex-1)*pageSize;
 			pageResult.setLength(pageSize);
 			pageResult.setStart(pageIndex);
-			pageResult.setDataList(watchPlanDao.getHistoryWatchPlan(userId, System.currentTimeMillis(), startNumber,pageSize));
+			pageResult.setDataList(watchPlanDao.getHistoryWatchPlan(userId,startTime,endTime, System.currentTimeMillis(), startNumber,pageSize));
 			pageResult.setTotalCount(watchPlanDao.selectHistoryWatchPlanCountByUserId(userId, System.currentTimeMillis()));
 
 		} catch (Exception e) {

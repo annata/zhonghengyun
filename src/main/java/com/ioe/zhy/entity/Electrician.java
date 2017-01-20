@@ -14,7 +14,14 @@ public class Electrician {
 	private String network_licence;      //进网作业许可证
 	private String special_certificate;    //特种作业操作证
 	private String professional_credential;  //职业资格证书
-	private String area_id;                //服务区域
+	private String area_id;                //服务区域id
+	private String area_name;              //服务区域名称
+	public String getArea_name() {
+		return area_name;
+	}
+	public void setArea_name(String area_name) {
+		this.area_name = area_name;
+	}
 	private String account_id;           //对应Account的Id
 	private String employee_id;           //雇员表
 	private boolean sys_is_delete;         //是否删除
@@ -91,9 +98,11 @@ public class Electrician {
 	public String toString() {
 		return "Electrician [electrician_id=" + electrician_id + ", network_licence=" + network_licence
 				+ ", special_certificate=" + special_certificate + ", professional_credential="
-				+ professional_credential + ", area_id=" + area_id + ", account_id=" + account_id + ", employee_id="
-				+ employee_id + ", sys_is_delete=" + sys_is_delete + ", sys_last_modified_time="
-				+ sys_last_modified_time + ", sys_hash=" + sys_hash + ", sys_create_time=" + sys_create_time + "]";
+				+ professional_credential + ", area_id=" + area_id + ", area_name=" + area_name + ", account_id="
+				+ account_id + ", employee_id=" + employee_id + ", sys_is_delete=" + sys_is_delete
+				+ ", sys_last_modified_time=" + sys_last_modified_time + ", sys_hash=" + sys_hash + ", sys_create_time="
+				+ sys_create_time + "]";
 	}
+	
 
 }

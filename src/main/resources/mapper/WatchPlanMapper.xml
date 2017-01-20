@@ -37,8 +37,10 @@
 		<if test="sys_hash!=null">sys_hash=#{sys_hash},</if>
 		sys_is_delete=1
 		</set>
-		where plan_id=#{plan_id}
+		where plan_id=#{plan_id}  and  (start_real_time is  null  or start_real_time=0) 
 	</update>
+	
+	<select id=""></select>
 	
 	
 	<!-- 删除值班记录 -->
@@ -75,16 +77,22 @@
 	
 	<!-- 查询值班计划 -->
 	<select id="getWatchPlan" resultType="com.ioe.zhy.entity.WatchPlan">
-		    <![CDATA[
-	select * from  t_watch_plan where watcher_id=#{watcher_id} and start_time>#{start_time}	 and sys_is_delete=0
-	 ]]>
+		 
+	select * from  t_watch_plan where 
+	<if test="watcher_id!=null and watcher_id!=''"> watcher_id=#{watcher_id} and </if>
+
+	    <![CDATA[ start_time>#{nowTime} ]]>	 and sys_is_delete=0
+	
 	</select>
 	
 	<!-- 分页查询历史值班 -->
-	<select id="getHistoryWatchPlan" resultType="com.ioe.zhy.entity.WatchPlan">
-	    <![CDATA[
-	select * from  t_watch_plan where watcher_id=#{watcher_id}  and sys_is_delete=0  and start_time<#{start_time}	limit #{startNumber},#{PageCount} 
-	 ]]>
+	<select id="getHistoryWatchPlan" resultType="com.ioe.zhy.entity.WatchPlan">	
+	select * from  t_watch_plan where 
+	<if test="watcher_id!=null and watcher_id!=''"> watcher_id=#{watcher_id} and </if>
+	<if test="start_time!=null and start_time!=0"> <![CDATA[  start_time<#{start_time} and   ]]></if>
+	<if test="end_time!=null and end_time!=0"> <![CDATA[  end_time>#{end_time} and   ]]></if>
+	  sys_is_delete=0  and      <![CDATA[ start_time<#{nowTime} ]]>	limit #{startNumber},#{PageCount} 
+	
 	</select>
 	
 	<!-- 查询指定人员历史值班总数 -->

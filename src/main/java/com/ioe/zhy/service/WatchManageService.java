@@ -64,7 +64,7 @@ public interface WatchManageService {
 	
 	/**
 	 * 接班
-	 * @param planId 用户id
+	 * @param planId 计划id
 	 * @return    操作结果，成功时包含监控项唯一标识RI
 	 */
 	public  Result beginWatch(String planId);
@@ -72,7 +72,7 @@ public interface WatchManageService {
 	
 	/**
 	 * 交班
-	 * @param planId
+	 * @param planId 计划id
 	 * @return    操作结果，成功时包含监控项唯一标识RI
 	 */
 	public Result completeWatch(String planId,String content);
@@ -89,12 +89,18 @@ public interface WatchManageService {
 	/**
 	 * 查询历史值班
 	 * @param userId 用户id
+	 * @param startTime 开始时间
+	 * @param endTime  结束时间
 	 * @param pageIndex  显示第几页 
 	 * @param pageSize  每页大小
 	 * @return   
 	 */
-	public PageResult<WatchPlan> getHistoryWatchPlan(String userId,Integer  pageIndex,Integer pageSize);
+	public PageResult<WatchPlan> getHistoryWatchPlan(String userId,long startTime,long endTime, Integer  pageIndex,Integer pageSize);
 	
-
+	/**
+	 * 查询值班记录
+	 * @param planId  计划id
+	 * @return   
+	 */
 	public DataResult<WatchRecord> getWatchRecordByPlanId(String planId);
 }
