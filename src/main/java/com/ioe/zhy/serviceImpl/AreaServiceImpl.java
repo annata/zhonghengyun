@@ -3,7 +3,10 @@ package com.ioe.zhy.serviceImpl;
 import com.ioe.common.util.Constants;
 import com.ioe.common.util.ZRIGenerater;
 import com.ioe.zhy.dao.AreaDao;
+import com.ioe.zhy.dao.ElectricianDao;
+import com.ioe.zhy.dao.PowerClientAreaDao;
 import com.ioe.zhy.entity.Area;
+import com.ioe.zhy.entity.PowerClientArea;
 import com.ioe.zhy.service.AreaService;
 import com.ioe.zhy.util.ListResult;
 import com.ioe.zhy.util.Result;
@@ -21,6 +24,10 @@ public class AreaServiceImpl implements AreaService {
     private static final String SERVICE_NAME = "zhy/t_AreaService";
     @Resource
     AreaDao areaDao;
+    @Resource
+    PowerClientAreaDao powerClientAreaDao;
+    @Resource
+    ElectricianDao electricianDao;
 
     @Override
     public Result addArea(String companyId, String areaName) {
@@ -74,5 +81,35 @@ public class AreaServiceImpl implements AreaService {
         ListResult<Map<String, Object>> result1 = new ListResult<>();
         result1.setDataList(result);
         return result1;
+    }
+
+    @Override
+    public Result bindElectricianAndArea(String electricianId, String areaId) {
+        electricianDao.electricianAndArea(electricianId, "1", areaId);
+        Result result = new Result();
+        return result;
+    }
+
+    @Override
+    public Result unBindElectricianAndArea(String electricianId, String areaId) {
+        electricianDao.electricianAndArea(electricianId, "1", null);
+        Result result = new Result();
+        return result;
+    }
+
+    @Override
+    public Result bindPowerClientAndArea(String powerClientId, String areaId) {
+        PowerClientArea powerClientArea = powerClientAreaDao.get(areaId, powerClientId);
+        if(powerClientArea==null)
+        powerClientAreaDao.add(areaId,powerClientId);
+        Result result = new Result();
+        return result;
+    }
+
+    @Override
+    public Result unBindPowerClientAndArea(String powerClientId, String areaId) {
+        powerClientAreaDao.delete(areaId,powerClientId);
+        Result result = new Result();
+        return result;
     }
 }

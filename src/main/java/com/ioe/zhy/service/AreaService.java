@@ -16,4 +16,12 @@ public interface AreaService {
     Result deleteArea(String areaId);
 
     ListResult<Map<String, Object>> getAreaByCompanyId(String companyId);
+
+    Result bindElectricianAndArea(String electricianId, String areaId);
+
+    Result unBindElectricianAndArea(String electricianId, String areaId);
+
+    Result bindPowerClientAndArea(String powerClientId, String areaId);
+
+    Result unBindPowerClientAndArea(String powerClientId, String areaId);
 }
