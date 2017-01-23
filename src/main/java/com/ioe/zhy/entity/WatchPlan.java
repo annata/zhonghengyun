@@ -19,7 +19,7 @@ public class WatchPlan {
 	private long watcher_id;          //值班人
 	private long leader_id;              //值班领导
 	private boolean type;              //值班计划类型，0表示客服值班计划，1表示电工值班计划
-	private boolean sys_is_delete;     //是否删除
+	private boolean sys_record_status;     //是否删除
 	private Date sys_last_modified_time;    //最后一次修改时间
 	private Date sys_create_time;           //添加时间
 	private String sys_hash;            
@@ -42,15 +42,14 @@ public class WatchPlan {
 	public void setSys_hash(String sys_hash) {
 		this.sys_hash = sys_hash;
 	}
-	public boolean isSys_is_delete() {
-		return sys_is_delete;
-	}
-	public void setSys_is_delete(boolean sys_is_delete) {
-		this.sys_is_delete = sys_is_delete;
-	}
-
 
 	
+	public boolean isSys_record_status() {
+		return sys_record_status;
+	}
+	public void setSys_record_status(boolean sys_record_status) {
+		this.sys_record_status = sys_record_status;
+	}
 	public String getPlan_id() {
 		return plan_id;
 	}
@@ -109,10 +108,11 @@ public class WatchPlan {
 	public String toString() {
 		return "WatchPlan [plan_id=" + plan_id + ", area_id=" + area_id + ", start_time=" + start_time + ", end_time="
 				+ end_time + ", start_real_time=" + start_real_time + ", end_real_time=" + end_real_time
-				+ ", watcher_id=" + watcher_id + ", leader_id=" + leader_id + ", type=" + type + ", sys_is_delete="
-				+ sys_is_delete + ", sys_last_modified_time=" + sys_last_modified_time + ", sys_create_time="
+				+ ", watcher_id=" + watcher_id + ", leader_id=" + leader_id + ", type=" + type + ", sys_record_status="
+				+ sys_record_status + ", sys_last_modified_time=" + sys_last_modified_time + ", sys_create_time="
 				+ sys_create_time + ", sys_hash=" + sys_hash + "]";
 	}
+
 
 
 	

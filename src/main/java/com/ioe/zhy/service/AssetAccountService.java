@@ -14,6 +14,7 @@ import com.ioe.zhy.util.Result;
  */
 public interface AssetAccountService {
 	
+	
 	/**
 	 * 新增电工
 	 * @param netLicence  进网许可证 
@@ -71,4 +72,23 @@ public interface AssetAccountService {
 	 * @return   
 	 */
 	public ListResult<Electrician>  searchElectrician(String companyId,String name,String netLicence,String specialCertificate,String professionalCredential);
+
+	/**
+	 * 关注用电客户
+	 * @param userId  用户的id 
+	 * @param powerClientId  用电客户id
+	 * @return   
+	 * @throws
+	 */
+	public Result addFavorPowerClient(String userId,String powerClientId);
+	
+	
+	/**
+	 * 取消关注
+	 * @param userId  用户的id 
+	 * @param powerClientId   用电客户id
+	 * @return  
+	 * @throws
+	 */
+	public Result cancelFavorPowerClient(String userId,String powerClientId );
 }

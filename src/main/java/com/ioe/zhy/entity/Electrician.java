@@ -24,7 +24,7 @@ public class Electrician {
 	}
 	private String account_id;           //对应Account的Id
 	private String employee_id;           //雇员表
-	private boolean sys_is_delete;         //是否删除
+	private boolean sys_record_status;         //是否删除
 	private Date sys_last_modified_time;    //最后一次修改时间
 	private String sys_hash;
 	private Date  sys_create_time;           //添加时间
@@ -70,12 +70,7 @@ public class Electrician {
 	public void setEmployee_id(String employee_id) {
 		this.employee_id = employee_id;
 	}
-	public boolean isSys_is_delete() {
-		return sys_is_delete;
-	}
-	public void setSys_is_delete(boolean sys_is_delete) {
-		this.sys_is_delete = sys_is_delete;
-	}
+
 	public Date getSys_last_modified_time() {
 		return sys_last_modified_time;
 	}
@@ -94,15 +89,23 @@ public class Electrician {
 	public void setSys_create_time(Date sys_create_time) {
 		this.sys_create_time = sys_create_time;
 	}
+	
+	public boolean isSys_record_status() {
+		return sys_record_status;
+	}
+	public void setSys_record_status(boolean sys_record_status) {
+		this.sys_record_status = sys_record_status;
+	}
 	@Override
 	public String toString() {
 		return "Electrician [electrician_id=" + electrician_id + ", network_licence=" + network_licence
 				+ ", special_certificate=" + special_certificate + ", professional_credential="
 				+ professional_credential + ", area_id=" + area_id + ", area_name=" + area_name + ", account_id="
-				+ account_id + ", employee_id=" + employee_id + ", sys_is_delete=" + sys_is_delete
+				+ account_id + ", employee_id=" + employee_id + ", sys_record_status=" + sys_record_status
 				+ ", sys_last_modified_time=" + sys_last_modified_time + ", sys_hash=" + sys_hash + ", sys_create_time="
 				+ sys_create_time + "]";
 	}
+
 	
 
 }

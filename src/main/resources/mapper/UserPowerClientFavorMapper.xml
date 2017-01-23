@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+ <mapper namespace="com.ioe.zhy.dao.UserPowerClientFavorDao">
+ 
+ 		<!-- 用户关注用电客户                                                                           -->
+ 		<insert id="addFavorPowerClient">
+ 		insert into r_user_powerClient_favor(user_id,powerClient_id,sys_hash,sys_create_time) values (#{user_id},#{powerClient_id},#{sys_hash},#{sys_create_time})
+ 		
+ 		</insert>
+ 		
+ 		<!--取消关注用电客户  -->
+ 		<update id="cancelFavorPowerClient">
+ 		update r_user_powerClient_favor set sys_record_status=1,sys_hash=#{sys_hash} where user_id=#{user_id} and powerClient_id={powerClient_id}
+ 		</update>
+ 	
+	
+	
+</mapper>

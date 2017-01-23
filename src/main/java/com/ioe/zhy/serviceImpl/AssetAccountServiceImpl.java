@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ioe.common.util.Constants;
 import com.ioe.common.util.ZRIGenerater;
 import com.ioe.zhy.dao.ElectricianDao;
+import com.ioe.zhy.dao.UserPowerClientFavorDao;
 import com.ioe.zhy.entity.Electrician;
 import com.ioe.zhy.entity.WatchPlan;
 import com.ioe.zhy.entity.WatchRecord;
@@ -38,6 +39,9 @@ public class AssetAccountServiceImpl implements AssetAccountService {
 
 	@Resource
 	private ElectricianDao electricianDao;
+	
+	@Resource
+	private UserPowerClientFavorDao userPowerClientFavorDao;
 
 	@Override
 	public Result addElectrician(String netLicence, String specialCertificate, String professionalCredential,
@@ -57,6 +61,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
 			electrician.setSys_create_time(new Date());
 			electrician.setSys_hash("3");
 			electricianDao.addElectrician(electrician);
+			result.setMessage("success");
 		} catch (Exception e) {
 	
 			LOG.error("addElectrician error");
@@ -84,6 +89,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
 			electrician.setEmployee_id(employeeId);
 			electrician.setSys_hash("3");
 			electricianDao.updateElectrician(electrician);
+			result.setMessage("success");
 		} catch (Exception e) {
 		
 			LOG.error("updateElectrician error");
@@ -100,6 +106,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
 		Result result = new Result();
 		try {
 			electricianDao.deleteElectrician(electricianId, "4");
+			result.setMessage("success");
 		} catch (Exception e) {
 			LOG.error("deleteElectrician error");
 			result.setCode(Constants.SERVICE_ERROR);
@@ -117,7 +124,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
 		 
 		 try{
 		 dataResult.setData( electricianDao.getElectricianInfo(electricianId));
-
+		 dataResult.setMessage("success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("getElectricianInfo error");
@@ -134,7 +141,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
 		ListResult<Electrician>  listResult=new  ListResult<Electrician>();
 		 try{
 			 listResult.setDataList( electricianDao.getElectricianList(companyId));
-
+			 listResult.setMessage("success");
 			} catch (Exception e) {
 				e.printStackTrace();
 				LOG.error("getElectricianList error");
@@ -152,7 +159,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
 		ListResult<Electrician>  listResult=new  ListResult<Electrician>();
 		 try{
 			 listResult.setDataList(electricianDao.searchElectrician(companyId, netLicence, specialCertificate, professionalCredential));
-
+			 listResult.setMessage("success");
 			} catch (Exception e) {
 				e.printStackTrace();
 				LOG.error("searchElectrician error");
@@ -160,6 +167,39 @@ public class AssetAccountServiceImpl implements AssetAccountService {
 				listResult.setMessage("searchElectrician error");
 			}
 			return listResult;
+	}
+
+
+	@Override
+	public Result addFavorPowerClient(String userId, String powerClientId) {
+		Result result = new Result();
+		 try{
+			 userPowerClientFavorDao.addFavorPowerClient(userId, powerClientId, "1", new Date());
+			 result.setMessage("success");
+			} catch (Exception e) {
+				e.printStackTrace();
+				LOG.error("addFavorPowerClient error");
+				result.setCode(Constants.SERVICE_ERROR);
+				result.setMessage("addFavorPowerClient error");
+			}
+			return result;
+	}
+
+
+
+	@Override
+	public Result cancelFavorPowerClient(String userId, String powerClientId) {
+		Result result = new Result();
+		 try{
+			 userPowerClientFavorDao.cancelFavorPowerClient(userId, powerClientId, "2");
+			 result.setMessage("success");
+			} catch (Exception e) {
+				e.printStackTrace();
+				LOG.error("cancelFavorPowerClient error");
+				result.setCode(Constants.SERVICE_ERROR);
+				result.setMessage("cancelFavorPowerClient error");
+			}
+			return result;
 	}
 
 }

@@ -63,6 +63,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 			watchPlan.setSys_hash("1");
 			watchPlan.setSys_create_time(new Date());;
 			watchPlanDao.addWatchPlan(watchPlan);
+			 result.setMessage("success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("addWatchPlan error");
@@ -91,6 +92,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 			watchPlan.setSys_hash("1");
 			
 			watchPlanDao.updateWatchPlan(watchPlan);
+			 result.setMessage("success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("updateWatchPlan error");
@@ -108,6 +110,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 		
 			watchPlanDao.deleteWatchPlan(planId,"1");
 			watchPlanDao.deleteWatchRecord(planId, "1");
+			 result.setMessage("success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("deleteWatchPlan error");
@@ -126,6 +129,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 		try {
 			long start_real_time=System.currentTimeMillis();
 			watchPlanDao.beginWatch(start_real_time, planId,"1");
+			 result.setMessage("success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("beginWatch error");
@@ -145,6 +149,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 			long end_real_time=System.currentTimeMillis();
 			watchPlanDao.completeWatch(end_real_time, planId,"1");
 		   watchPlanDao.addWatchRecord(ZRIGenerater.generate(SERVICE_NAME), planId, "2", content, new Date());
+		   result.setMessage("success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("completeWatch error");
@@ -161,6 +166,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 		ListResult<WatchPlan>  listResult=new  ListResult<WatchPlan>();
 		try {
 			listResult.setDataList(watchPlanDao.getWatchPlan(userId, System.currentTimeMillis()));
+			listResult.setMessage("success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("getWatchPlan error");
@@ -185,7 +191,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 			pageResult.setStart(pageIndex);
 			pageResult.setDataList(watchPlanDao.getHistoryWatchPlan(userId,startTime,endTime, System.currentTimeMillis(), startNumber,pageSize));
 			pageResult.setTotalCount(watchPlanDao.selectHistoryWatchPlanCountByUserId(userId, System.currentTimeMillis()));
-
+			pageResult.setMessage("success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("getHistoryWatchPlan error");
@@ -203,7 +209,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 	   try {
 
 		   dataResult.setData(watchPlanDao.getWatchRecordByPlanId(planId) );
-
+		   dataResult.setMessage("success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("watchManage error");

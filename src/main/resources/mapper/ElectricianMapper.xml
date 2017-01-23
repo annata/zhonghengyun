@@ -31,7 +31,7 @@
 	update t_electrician 
 		<set>
 		<if test="sys_hash!=null">sys_hash=#{sys_hash},</if>
-		sys_is_delete=1
+		sys_record_status=1
 		</set>
 	  where	electrician_id=#{electrician_id}
 	</update>
@@ -44,12 +44,12 @@
 	
 	<!-- 查询指定公司下的电工列表 -->
 	<select id="getElectricianList" parameterType="String" resultType="com.ioe.zhy.entity.Electrician">
-	select e.*,a.area_name from  t_electrician  e join  t_area  a on  e.area_id=a.area_id and  e.sys_is_delete=0 and a.company_id=#{company_id}
+	select e.*,a.area_name from  t_electrician  e join  t_area  a on  e.area_id=a.area_id and  e.sys_record_status=0 and a.company_id=#{company_id}
 	</select>
 	
 	<!-- 查询指定条件的电工列表 -->
 	<select id="searchElectrician"  resultType="com.ioe.zhy.entity.Electrician">
-	select e.*,a.area_name from  t_electrician  e join  t_area  a on  e.area_id=a.area_id and  e.sys_is_delete=0 
+	select e.*,a.area_name from  t_electrician  e join  t_area  a on  e.area_id=a.area_id and  e.sys_record_status=0 
 	<if test="network_licence!=null">and e.network_licence=#{network_licence}</if>	
 	<if test="special_certificate!=null">and e.special_certificate=#{special_certificate}</if>	
 	<if test="professional_credential!=null">and e.professional_credential=#{professional_credential}</if>		
@@ -61,7 +61,7 @@
 	<update id="deleteElectricianByArea" parameterType="String">
 		update t_electrician 
 		<set>
-		sys_is_delete=1
+		sys_record_status=1
 		</set>
 	  where	area_id=#{area_id}
 	</update>
