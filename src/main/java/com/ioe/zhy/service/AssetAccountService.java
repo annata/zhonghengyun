@@ -71,7 +71,7 @@ public interface AssetAccountService {
 	 * @param professionalCredential  职业资格证书
 	 * @return   
 	 */
-	public ListResult<Electrician>  searchElectrician(String companyId,String name,String netLicence,String specialCertificate,String professionalCredential);
+	public  ListResult<Electrician>  searchElectrician(String companyId,String name,String netLicence,String specialCertificate,String professionalCredential);
 
 	/**
 	 * 关注用电客户
@@ -91,4 +91,8 @@ public interface AssetAccountService {
 	 * @throws
 	 */
 	public Result cancelFavorPowerClient(String userId,String powerClientId );
+	
+	
+	
+
 }
