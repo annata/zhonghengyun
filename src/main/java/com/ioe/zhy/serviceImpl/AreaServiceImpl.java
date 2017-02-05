@@ -38,7 +38,9 @@ public class AreaServiceImpl implements AreaService {
             area.setArea_id(ZRIGenerater.generate(SERVICE_NAME));
             area.setArea_name(areaName);
             area.setCompany_id(companyId);
-            if (areaDao.add(area)) return result1;
+            if (areaDao.add(area)){ 
+            	result1.setMessage("success");
+            	return result1;}
         } catch (Exception e) {
         }
         result1.setCode(Constants.SERVICE_ERROR);
@@ -54,7 +56,9 @@ public class AreaServiceImpl implements AreaService {
             Area area = new Area();
             area.setArea_id(areaId);
             area.setArea_name(areaName);
-            if (areaDao.update(area)) return result1;
+            if (areaDao.update(area)){ 
+            	result1.setMessage("success");
+            	return result1;}
         } catch (Exception e) {
         }
         result1.setCode(Constants.SERVICE_ERROR);
@@ -69,7 +73,10 @@ public class AreaServiceImpl implements AreaService {
         try {
             powerClientAreaDao.deleteByArea(areaId);
             electricianDao.deleteElectricianByArea(areaId);
-            if (areaDao.delete(areaId)) return result1;
+            if (areaDao.delete(areaId)) {	
+            result1.setMessage("success");
+            return result1;
+            }
         } catch (Exception e) {
         }
         result1.setCode(Constants.SERVICE_ERROR);
@@ -82,6 +89,7 @@ public class AreaServiceImpl implements AreaService {
         List<Map<String, Object>> result = areaDao.getByCompanyId(companyId);
         ListResult<Map<String, Object>> result1 = new ListResult<>();
         result1.setDataList(result);
+        result1.setMessage("success");
         return result1;
     }
 
@@ -89,6 +97,7 @@ public class AreaServiceImpl implements AreaService {
     public Result bindElectricianAndArea(String electricianId, String areaId) {
         electricianDao.electricianAndArea(electricianId, "1", areaId);
         Result result = new Result();
+        result.setMessage("success");
         return result;
     }
 
@@ -96,6 +105,7 @@ public class AreaServiceImpl implements AreaService {
     public Result unBindElectricianAndArea(String electricianId, String areaId) {
         electricianDao.electricianAndArea(electricianId, "1", null);
         Result result = new Result();
+        result.setMessage("success");
         return result;
     }
 
@@ -108,6 +118,7 @@ public class AreaServiceImpl implements AreaService {
         if (t == null)
             powerClientAreaDao.add(powerClientArea);
         Result result = new Result();
+        result.setMessage("success");
         return result;
     }
 
@@ -118,6 +129,7 @@ public class AreaServiceImpl implements AreaService {
         powerClientArea.setArea_id(areaId);
         powerClientAreaDao.delete(powerClientArea);
         Result result = new Result();
+        result.setMessage("success");
         return result;
     }
 }
