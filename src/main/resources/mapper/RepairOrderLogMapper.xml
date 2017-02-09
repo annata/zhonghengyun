@@ -2,9 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
         
- <mapper>
+ <mapper namespace="com.ioe.zhy.dao.RepairOrderLogDao">
+       <!-- 添加工单日志 -->
+        <insert id="addOrderLog" parameterType="com.ioe.zhy.entity.RepairOrderLog">
+        insert into t_repair_order_log(log_id,order_id,operator_id,before_status,after_status,
+        operator_time,remark,sys_hash,sys_create_time) values(#{log_id},#{order_id},#{operator_id},
+        #{before_status},#{after_status},#{operator_time},#{remark},#{sys_hash},#{sys_create_time})
+        </insert>
         
+        <!-- 修改工单日志 -->
+        <update id="changeOrderLog" parameterType="com.ioe.zhy.entity.RepairOrderLog">
+        update t_repair_order_log <set>
+        <if test="operator_id!=null">operator_id=#{operator_id},</if>
+        <if test="before_status!=null">before_status=#{before_status},</if>
+        <if test="after_status!=null">after_status=#{after_status},</if>
+        <if test="operator_time!=null">operator_time=#{operator_time},</if>
+        <if test="remark!=null">remark=#{remark},</if>
+        <if test="sys_hash!=null">sys_hash=#{sys_hash}</if> 
+        </set>
+        where  order_id=#{order_id}
+     
+        </update>
         
+        <!-- 查询指定工单操作之前的状态 -->
+        <select id="getOrderStatus" parameterType="String" resultType="String">
+        select after_status from t_repair_order_log where  order_id=#{order_id}
+        </select>
         
         
  </mapper>

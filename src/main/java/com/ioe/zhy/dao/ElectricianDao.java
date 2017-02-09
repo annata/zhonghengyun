@@ -14,7 +14,7 @@ import com.ioe.zhy.entity.Electrician;
  *
  */
 public interface ElectricianDao {
-	
+	public int electricianIsExist(String electrician_id);
 	public int addElectrician(Electrician electrician);
 	public int updateElectrician(Electrician electrician);
 	public int deleteElectrician(@Param("electrician_id")String electrician_id,@Param("sys_hash")String sys_hash);
@@ -24,6 +24,7 @@ public interface ElectricianDao {
 			@Param("special_certificate")String special_certificate,@Param("professional_credential")String  professional_credential);
  	
 	public int deleteElectricianByArea(String area_id);
+	
 	
 	public int electricianAndArea(@Param("electrician_id")String electrician_id,@Param("sys_hash")String sys_hash,@Param("area_id")String area_id);
 }

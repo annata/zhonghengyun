@@ -11,6 +11,7 @@ import com.ioe.zhy.service.AreaService;
 import com.ioe.zhy.util.ListResult;
 import com.ioe.zhy.util.Result;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Map;
  * Created by wangqiyun on 2017/1/19.
  */
 @Service("areaService")
+@Transactional
 public class AreaServiceImpl implements AreaService {
     private static final String SERVICE_NAME = "zhy/t_AreaService";
     @Resource
@@ -38,6 +40,7 @@ public class AreaServiceImpl implements AreaService {
             area.setArea_id(ZRIGenerater.generate(SERVICE_NAME));
             area.setArea_name(areaName);
             area.setCompany_id(companyId);
+            area.setSys_hash("13");
             if (areaDao.add(area)){ 
             	result1.setMessage("success");
             	return result1;}
@@ -56,6 +59,7 @@ public class AreaServiceImpl implements AreaService {
             Area area = new Area();
             area.setArea_id(areaId);
             area.setArea_name(areaName);
+            area.setSys_hash("14");
             if (areaDao.update(area)){ 
             	result1.setMessage("success");
             	return result1;}
@@ -73,7 +77,7 @@ public class AreaServiceImpl implements AreaService {
         try {
             powerClientAreaDao.deleteByArea(areaId);
             electricianDao.deleteElectricianByArea(areaId);
-            if (areaDao.delete(areaId)) {	
+            if (areaDao.delete(areaId,"11")) {	
             result1.setMessage("success");
             return result1;
             }
@@ -111,11 +115,11 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public Result bindPowerClientAndArea(String powerClientId, String areaId) {
-        PowerClientArea powerClientArea = new PowerClientArea(), t;
+        PowerClientArea powerClientArea = new PowerClientArea();
         powerClientArea.setPowerClient_id(powerClientId);
         powerClientArea.setArea_id(areaId);
-        t = powerClientAreaDao.get(powerClientArea);
-        if (t == null)
+        int a = powerClientAreaDao.get(powerClientArea);
+        if (a == 0)
             powerClientAreaDao.add(powerClientArea);
         Result result = new Result();
         result.setMessage("success");

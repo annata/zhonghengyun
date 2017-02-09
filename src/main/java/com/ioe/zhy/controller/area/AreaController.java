@@ -22,11 +22,9 @@ public class AreaController {
 
     @RequestMapping("/add")
     @ResponseBody
-    public Map add(Area area) {
-        Result result1 = areaService.addArea(area.getCompany_id(), area.getArea_name());
-        Map<String, Object> result = new HashMap<>();
-        result.put("code", result1);
-        return result;
+    public Object add(String getCompany_id,String getArea_name) {
+        Result result1 = areaService.addArea(getCompany_id, getArea_name);
+        return result1;
     }
 
     @RequestMapping("/update")

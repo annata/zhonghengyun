@@ -6,26 +6,26 @@
 	
 	<!-- 添加区域 -->
     <insert id="add" parameterType="com.ioe.zhy.entity.Area">
-        insert into t_area(area_id,company_id,area_name,sys_create_time)
-        values(#{area_id},#{company_id},#{area_name},#{sys_create_time})
+        insert into t_area(area_id,company_id,area_name,sys_create_time,sys_hash)
+        values(#{area_id},#{company_id},#{area_name},#{sys_create_time},#{sys_hash})
     </insert>
     <!-- 编辑区域 -->
     <update id="update" parameterType="com.ioe.zhy.entity.Area">
-        UPDATE t_area SET area_name=#{area_name}
+        UPDATE t_area SET area_name=#{area_name},sys_hash=#{sys_hash}
         WHERE area_id=#{area_id}
     </update>
     <!-- 删除区域 -->
-    <update id="delete" parameterType="String">
-        UPDATE t_area SET sys_is_delete=1
+    <update id="delete" >
+        UPDATE t_area SET sys_record_status=1,sys_hash=#{sys_hash}
         WHERE area_id=#{areaId}
     </update>
     
     <!-- 根据公司id查询区域列表 -->
     <select id="getByCompanyId" parameterType="String" resultType="Map">
-        SELECT area_id,area_name FROM t_area WHERE company_id=#{companyId} AND sys_is_delete=0
+        SELECT area_id,area_name FROM t_area WHERE company_id=#{companyId} AND sys_record_status=0
     </select>
         <!-- 根据区域id查询区域列表 -->
     <select id="get" parameterType="String" resultType="Map">
-        SELECT area_id,area_name FROM t_area WHERE area_id=#{areaId} AND sys_is_delete=0
+        SELECT area_id,area_name FROM t_area WHERE area_id=#{areaId} AND sys_record_status=0
     </select>
 </mapper>

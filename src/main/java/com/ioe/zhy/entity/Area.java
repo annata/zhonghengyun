@@ -11,9 +11,34 @@ public class Area {
     private String company_id;
     private String area_name;
     private Date sys_create_time = new Date();
-    private boolean sys_is_delete;
+    private boolean sys_record_status;
+    private String sys_hash;
+	private Date sys_last_modified_time;  
 
-    public long getId() {
+    @Override
+	public String toString() {
+		return "Area [id=" + id + ", area_id=" + area_id + ", company_id=" + company_id + ", area_name=" + area_name
+				+ ", sys_create_time=" + sys_create_time + ", sys_record_status=" + sys_record_status + ", sys_hash="
+				+ sys_hash + ", sys_last_modified_time=" + sys_last_modified_time + "]";
+	}
+
+	public String getSys_hash() {
+		return sys_hash;
+	}
+
+	public void setSys_hash(String sys_hash) {
+		this.sys_hash = sys_hash;
+	}
+
+	public Date getSys_last_modified_time() {
+		return sys_last_modified_time;
+	}
+
+	public void setSys_last_modified_time(Date sys_last_modified_time) {
+		this.sys_last_modified_time = sys_last_modified_time;
+	}
+
+	public long getId() {
         return id;
     }
 
@@ -53,11 +78,13 @@ public class Area {
         this.sys_create_time = sys_create_time;
     }
 
-    public boolean isSys_is_delete() {
-        return sys_is_delete;
-    }
+	public boolean isSys_record_status() {
+		return sys_record_status;
+	}
 
-    public void setSys_is_delete(boolean sys_is_delete) {
-        this.sys_is_delete = sys_is_delete;
-    }
+	public void setSys_record_status(boolean sys_record_status) {
+		this.sys_record_status = sys_record_status;
+	}
+
+
 }

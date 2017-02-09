@@ -16,7 +16,7 @@
         WHERE record_id=#{record_id}
     </update>
     <select id="getProjrct" parameterType="String" resultType="com.ioe.zhy.entity.Project">
-        SELECT * FROM t_project_record WHERE powerClient_id=#{powerClientId} AND sys_is_delete=0
+        SELECT * FROM t_project_record WHERE powerClient_id=#{powerClientId} AND sys_record_status=0
     </select>
 
 

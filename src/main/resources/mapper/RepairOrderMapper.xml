@@ -2,9 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
         
- <mapper>
-        
-        
+ <mapper namespace="com.ioe.zhy.dao.RepairOrderDao">
+ 
+ 	<!-- 获取今天最后一个工单编号 -->
+ 	<select id="getTodayLastOrder" resultType="String">
+ 	
+     select order_no from t_repair_order where id=(select max(id) from t_repair_order where 
+        <![CDATA[ sys_create_time>=#{zeroTime} and sys_create_time<=#{twelve}  ]]>	) 
+ 	</select>
+     
+     <!-- 添加工单 -->   
+    <insert id="addOrder" parameterType="com.ioe.zhy.entity.RepairOrder">
+    insert into t_repair_order(order_id,order_no,powerClient_id,powerClient_manager,manager_phone,
+    fault_source,fault_device,fault_desc,fault_level,area_electrician,order_status,sys_hash,sys_create_time) values
+     (#{order_id},#{order_no},#{powerClient_id},#{powerClient_manager},#{manager_phone},
+     #{fault_source},#{fault_device},#{fault_desc},#{fault_level},#{area_electrician},#{order_status}
+     ,#{sys_hash},#{sys_create_time})
+    </insert>    
+    
+    <!-- 修改工单 -->
+    <update id="changeOrder" parameterType="com.ioe.zhy.entity.RepairOrder">
+    update t_repair_order <set>
+    <if test="powerClient_id!=null">powerClient_id=#{powerClient_id}, </if>
+    <if test="powerClient_manager!=null">powerClient_manager=#{powerClient_manager}, </if>
+    <if test="fault_source!=null">fault_source=#{fault_source}, </if>
+    <if test="fault_device!=null">fault_device=#{fault_device}, </if>
+    <if test="fault_desc!=null">fault_desc=#{fault_desc}, </if>
+    <if test="fault_level!=null">fault_level=#{fault_level}, </if>
+    <if test="area_electrician!=null">area_electrician=#{area_electrician}, </if>
+    <if test="order_status!=null">order_status=#{order_status}, </if>
+    <if test="sys_hash!=null">sys_hash=#{sys_hash},</if>
+    </set>
+   	where  order_id=#{order_id}  
+    </update>
         
         
  </mapper>

@@ -6,15 +6,18 @@
  
  		<!-- 用户关注用电客户                                                                           -->
  		<insert id="addFavorPowerClient">
- 		insert into r_user_powerClient_favor(user_id,powerClient_id,sys_hash,sys_create_time) values (#{user_id},#{powerClient_id},#{sys_hash},#{sys_create_time})
+ 		insert into r_user_powerClient_favor(user_id,powerClient_id) values (#{user_id},#{powerClient_id})
  		
  		</insert>
  		
  		<!--取消关注用电客户  -->
  		<update id="cancelFavorPowerClient">
- 		update r_user_powerClient_favor set sys_record_status=1,sys_hash=#{sys_hash} where user_id=#{user_id} and powerClient_id={powerClient_id}
+ 		update r_user_powerClient_favor set sys_record_status=1 where user_id=#{user_id} and powerClient_id=#{powerClient_id}
  		</update>
  	
-	
+ 		<!-- 查询记录是否存在 -->
+		<select id="FavorPowerClientIsExist"  resultType="int">
+		select count(id) from r_user_powerClient_favor where user_id=#{user_id} and powerClient_id=#{powerClient_id} and sys_record_status=0
+		</select>
 	
 </mapper>

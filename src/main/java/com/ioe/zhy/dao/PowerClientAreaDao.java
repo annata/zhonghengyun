@@ -11,7 +11,7 @@ public interface PowerClientAreaDao {
 
     boolean delete(PowerClientArea powerClientArea);
 
-    PowerClientArea get(PowerClientArea powerClientArea);
+    int get(PowerClientArea powerClientArea);
 
     boolean deleteByArea(@Param("area_id")String area_id);
 }

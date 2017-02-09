@@ -3,20 +3,25 @@
         "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
 <mapper namespace="com.ioe.zhy.dao.PowerClientAreaDao">
-
+	
+	
     <insert id="add" parameterType="com.ioe.zhy.entity.PowerClientArea">
-        insert into r_powerClient_area(powerClient_id,area_id,sys_create_time)
-        values(#{powerClient_id},#{area_id},#{sys_create_time})
+        insert into r_powerClient_area(powerClient_id,area_id)
+        values(#{powerClient_id},#{area_id})
     </insert>
     <update id="delete" parameterType="com.ioe.zhy.entity.PowerClientArea">
-        UPDATE r_powerClient_area SET sys_is_delete=1
+        UPDATE r_powerClient_area SET sys_record_status=1
         WHERE powerClient_id=#{powerClient_id} AND area_id=#{area_id}
     </update>
+    
+    <!-- 删除区域下的用电客户 -->
     <update id="deleteByArea" parameterType="String">
-        UPDATE r_powerClient_area SET sys_is_delete=1
+        UPDATE r_powerClient_area SET sys_record_status=1
         WHERE area_id=#{area_id}
     </update>
-    <select id="get" parameterType="com.ioe.zhy.entity.PowerClientArea" resultType="com.ioe.zhy.entity.PowerClientArea">
-        SELECT * FROM r_powerClient_area WHERE powerClient_id=#{powerClient_id} AND area_id=#{area_id} AND sys_is_delete=0
+    
+    <!-- 判断记录是否存在 -->
+    <select id="get" parameterType="com.ioe.zhy.entity.PowerClientArea" resultType="int">
+        SELECT count(id) FROM r_powerClient_area WHERE powerClient_id=#{powerClient_id} AND area_id=#{area_id} AND sys_record_status=0  
     </select>
 </mapper>

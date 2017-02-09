@@ -33,7 +33,7 @@ import com.ioe.zhy.util.Result;
 @Transactional
 public class AssetAccountServiceImpl implements AssetAccountService {
 
-	private final Logger LOG = LoggerFactory.getLogger(WatchManageService.class);
+	private final Logger LOG = LoggerFactory.getLogger(AssetAccountService.class);
 
 	private static final String SERVICE_NAME = "zhy/t_AssetAccountService";
 
@@ -50,6 +50,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
 		Result result = new Result();
 
 		try {
+			
 			Electrician electrician = new Electrician();
 			electrician.setElectrician_id(ZRIGenerater.generate(SERVICE_NAME));
 			electrician.setNetwork_licence(netLicence);
@@ -174,7 +175,9 @@ public class AssetAccountServiceImpl implements AssetAccountService {
 	public Result addFavorPowerClient(String userId, String powerClientId) {
 		Result result = new Result();
 		 try{
-			 userPowerClientFavorDao.addFavorPowerClient(userId, powerClientId, "1", new Date());
+			 if(userPowerClientFavorDao.FavorPowerClientIsExist(userId, powerClientId)==1)
+				 return result;
+			 userPowerClientFavorDao.addFavorPowerClient(userId, powerClientId);
 			 result.setMessage("success");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -191,7 +194,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
 	public Result cancelFavorPowerClient(String userId, String powerClientId) {
 		Result result = new Result();
 		 try{
-			 userPowerClientFavorDao.cancelFavorPowerClient(userId, powerClientId, "2");
+			 userPowerClientFavorDao.cancelFavorPowerClient(userId, powerClientId);
 			 result.setMessage("success");
 			} catch (Exception e) {
 				e.printStackTrace();

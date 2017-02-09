@@ -5,6 +5,8 @@ package com.ioe.zhy.entity;
 
 import java.util.Date;
 
+import javassist.expr.NewArray;
+
 /**
  * @author hq
  *
@@ -25,7 +27,7 @@ public class RepairOrder {
 	private boolean sys_record_status;         //是否删除
 	private Date sys_last_modified_time;    //最后一次修改时间
 	private String sys_hash;
-	private Date  sys_create_time;           //添加时间
+	private Date  sys_create_time =new Date();           //添加时间
 	public String getOrder_id() {
 		return order_id;
 	}

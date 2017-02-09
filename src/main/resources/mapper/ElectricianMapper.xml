@@ -13,6 +13,10 @@
    ,#{sys_create_time})
    </insert>
    
+   <select id="electricianIsExist" parameterType="String" resultType="int">
+   select count(electrician_id) from t_electrician where  electrician_id=#{electrician_id}
+   </select>
+   
    <!-- 根据电工id编辑电工 -->
    <update id="updateElectrician" parameterType="com.ioe.zhy.entity.Electrician">
    update t_electrician <set>
@@ -39,7 +43,7 @@
 	
 	<!-- 查询电工信息 -->
 	<select id="getElectricianInfo" parameterType="String" resultType="com.ioe.zhy.entity.Electrician">
-	select e.*,a.area_name from  t_electrician  e join  t_area  a on  e.area_id=a.area_id and e.electrician_id=#{electrician_id}
+	select e.*,a.area_name from  t_electrician  e join  t_area  a on  e.area_id=a.area_id and  e.sys_record_status=0  and e.electrician_id=#{electrician_id}
 	</select>
 	
 	<!-- 查询指定公司下的电工列表 -->
