@@ -148,4 +148,21 @@ public class RepairServiceImpl implements RepairService {
 
 	}
 
+
+	@Override
+	public Result sendOrder(String orderId, String operator, String needPowerOff, long powerOffTime,
+			String primaryElectrician, String cooperateElectrician) {
+		Result result = new Result();
+		try {
+			
+			
+		} catch (Exception e) {
+
+			result.setCode(Constants.SERVICE_ERROR);
+			result.setMessage("sendOrder error");
+		}
+		return result;
+		
+	}
+
 }
