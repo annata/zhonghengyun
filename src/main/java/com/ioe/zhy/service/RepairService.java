@@ -16,11 +16,12 @@ public interface RepairService {
 	
 	/**
 	 * 查询用户的待办工单
+	 * @param  role   用户角色
 	 * @param companyId  公司id
 	 * @param userId   用户的id
 	 * @return   
 	 */
-	public  ListResult<RepairOrder>   getTodoListByUserId(String companyId,String userId);
+	public  ListResult<RepairOrder>   getTodoListByUserId(String companyId,String userId,String role);
 
 	/**
 	 * 工单忽略
@@ -46,7 +47,7 @@ public interface RepairService {
 	 * @return   
 	 * @throws
 	 */
-	public Result sendOrder(String orderId,String operator,String needPowerOff,long powerOffTime,String primaryElectrician,String cooperateElectrician);
+	public Result sendOrder(String orderId,String operator,Boolean needPowerOff,String powerOffTime,String primaryElectrician,String cooperateElectrician);
 	
 	
 	/**

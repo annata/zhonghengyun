@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+        
+ <mapper namespace="com.ioe.zhy.dao.RepairTaskDistributionDao">
+ 
+ 	<!-- 添加多个任务 -->
+ 	<insert id="addTaskDistributionList" parameterType="java.util.List">
+ 	
+ 	insert into t_repair_task_distribution(distribution_id,order_id,task_id,electrician_id,
+ 	is_primary,distribution_status,sys_create_time) values 
+ 	<foreach collection="list" item="item"  index="index" separator=",">
+ 	(#{item.distribution_id},#{item.order_id},#{item.task_id},#{item.electrician_id},#{item.is_primary},
+ 	#{item.distribution_status},#{item.sys_create_time})
+ 	</foreach>
+ 	</insert>
+ 	
+ 	<select id="getTodoLists" parameterType="String" resultType="com.ioe.zhy.entity.RepairOrder">
+ 	select a.* from t_repair_order a where  a.order_id=(select order_id from t_repair_task_distribution where  sys_record_status=0  and electrician_id=#{userId} and distribution_status 
+in ('待接单','待签到','待完成'))
+ 	</select>
+ 
+        
+ </mapper>

@@ -51,7 +51,11 @@ public interface AssetAccountService {
 	public Result deleteElectrician(String electricianId);
 	
 	
-	
+	/**
+	 * 获取电工信息
+	 * @param electricianId 电工id
+	 * @return   
+	 */
 	public DataResult<Electrician> getElectricianInfo(String electricianId);
 	
 	/**

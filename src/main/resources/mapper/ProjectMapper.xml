@@ -3,20 +3,37 @@
         "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
 <mapper namespace="com.ioe.zhy.dao.ProjectDao">
-
+	
+	<!-- 添加工程计划 -->
     <insert id="addProject" parameterType="com.ioe.zhy.entity.Project">
-        insert into t_project_record(record_id,category,content,result,status
-        ,create_time,powerClient_id,electrician_id,service_company_id,sys_create_time)
-        values(#{record_id},#{category},#{content},#{result},
-        #{status},#{create_time},#{powerClient_id},#{electrician_id},#{service_company_id},#{sys_create_time})
+        insert into t_project_record(record_id,result,status,save_time,powerClient_id,powerClient_name,electrician_id,electrician_name,service_company_id,sys_create_time,sys_hash)
+        values(#{record_id},#{result},#{status},#{save_time},#{powerClient_id},#{powerClient_name},#{electrician_id},#{electrician_name},#{service_company_id},#{sys_create_time},#{sys_hash})
     </insert>
+    
+    <!-- 修改工程计划 -->
     <update id="updateProject" parameterType="com.ioe.zhy.entity.Project">
-        UPDATE t_project_record SET category=#{category},content=#{content},result=#{result},status=#{status}
-        ,powerClient_id=#{powerClient_id},electrician_id=#{electrician_id},service_company_id=#{service_company_id}
-        WHERE record_id=#{record_id}
+        UPDATE t_project_record SET result=#{result},status=#{status},sys_hash=#{sys_hash}   WHERE record_id=#{record_id}
     </update>
-    <select id="getProjrct" parameterType="String" resultType="com.ioe.zhy.entity.Project">
-        SELECT * FROM t_project_record WHERE powerClient_id=#{powerClientId} AND sys_record_status=0
+    
+    <!-- 根据id查询工程计划 -->
+    <select id="getProjectById" parameterType="String" resultType="com.ioe.zhy.entity.Project">
+        SELECT * FROM t_project_record WHERE record_id=#{recordId} AND sys_record_status=0
+    </select>
+    
+    <!-- 查询工程计划总数 -->
+    <select id="getProjectCount" resultType="int">
+    select count(record_id) from t_project_record where 
+    <if test="status!=null and status!=''">status=#{status} and </if>
+    <if test="powerClient_id!=null">powerClient_id=#{powerClient_id} and </if>
+    sys_record_status=0  
+    </select>
+    
+    <!-- 分页查询工程计划 -->
+    <select id="getProjectRecordList" resultType="com.ioe.zhy.entity.Project">
+    select * from t_project_record where 
+    <if test="status!=null and status!=''">status=#{status} and </if>
+    <if test="powerClient_id!=null">powerClient_id=#{powerClient_id} and </if>
+    	  sys_record_status=0  limit #{startNumber},#{PageCount} 
     </select>
 
 

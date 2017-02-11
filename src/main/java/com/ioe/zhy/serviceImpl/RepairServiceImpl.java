@@ -5,7 +5,9 @@ package com.ioe.zhy.serviceImpl;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.annotation.Resource;
@@ -18,14 +20,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ioe.common.util.Constants;
 import com.ioe.common.util.ZRIGenerater;
+import com.ioe.customer.client.entity.Employee;
+import com.ioe.customer.client.service.EmployeeService;
+import com.ioe.zhy.dao.RepairDistributionLogDao;
 import com.ioe.zhy.dao.RepairOrderDao;
 import com.ioe.zhy.dao.RepairOrderLogDao;
+import com.ioe.zhy.dao.RepairTaskDistributionDao;
+import com.ioe.zhy.dao.RrepairTaskDao;
+import com.ioe.zhy.entity.RepairDistributionLog;
 import com.ioe.zhy.entity.RepairOrder;
 import com.ioe.zhy.entity.RepairOrderLog;
-
+import com.ioe.zhy.entity.RepairTaskDistribution;
+import com.ioe.zhy.entity.RrepairTask;
 import com.ioe.zhy.service.RepairLogService;
 import com.ioe.zhy.service.RepairService;
-
+import com.ioe.zhy.util.DataResult;
 import com.ioe.zhy.util.ListResult;
 import com.ioe.zhy.util.Result;
 
@@ -46,14 +55,34 @@ public class RepairServiceImpl implements RepairService {
 
 	@Resource
 	private RepairOrderLogDao repairOrderLogDao;
-
+	
 	@Resource
-	private RepairLogService repairLogService;
+	private RrepairTaskDao repairTaskDao;
+	
+	  @Resource
+	   private RepairTaskDistributionDao repairTaskDistributionDao;	   
+	   
+	   @Resource
+	   private RepairDistributionLogDao repairDistributionLogDao;
+	   
+//	   @Resource
+//	   private EmployeeService employeeService;
 
 	@Override
-	public ListResult<RepairOrder> getTodoListByUserId(String companyId, String userId) {
+	public ListResult<RepairOrder> getTodoListByUserId(String companyId, String userId,String role) {
 		ListResult<RepairOrder> listResult = new ListResult<>();
-
+		try {
+		if("运维电工".equals(role)){
+			listResult.setDataList(repairTaskDistributionDao.getTodoLists(userId));
+		}else if("用电主管".equals(role)){
+			listResult.setDataList( repairOrderDao.getTodoOrder(companyId)	);
+		}
+			listResult.setMessage("success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			listResult.setCode(Constants.SERVICE_ERROR);
+			listResult.setMessage("getTodoListByUserId error");
+	}
 		return listResult;
 	}
 
@@ -150,14 +179,87 @@ public class RepairServiceImpl implements RepairService {
 
 
 	@Override
-	public Result sendOrder(String orderId, String operator, String needPowerOff, long powerOffTime,
+	public Result sendOrder(String orderId, String operator, Boolean needPowerOff, String powerOffTime,
 			String primaryElectrician, String cooperateElectrician) {
 		Result result = new Result();
 		try {
-			
-			
+			long time=System.currentTimeMillis();
+			String task_id=ZRIGenerater.generate("zhy/t_RrepairTask");
+			 RrepairTask  repairTask=new  RrepairTask();
+			 repairTask.setTask_id(task_id);
+			 repairTask.setOrder_id(orderId);
+			 repairTask.setSender(operator);
+			 repairTask.setSend_time(time);
+			 repairTask.setNeed_powerOff(needPowerOff);
+			 repairTask.setPowerOff_time(powerOffTime);
+			 repairTask.setSys_hash("1");
+			 repairTaskDao.addTask(repairTask);
+			 
+			 List<RepairTaskDistribution> taskDistributionList=new ArrayList<>();		
+			 RepairTaskDistribution taskDistribution=new RepairTaskDistribution();
+			 String   taskDistributionId    =ZRIGenerater.generate("zhy/t_RepairTaskDistributionService");
+			 taskDistribution.setDistribution_id(taskDistributionId);
+			 taskDistribution.setDistribution_status("待接单");
+			 taskDistribution.setElectrician_id(primaryElectrician);
+			 taskDistribution.setTask_id(task_id);
+			 taskDistribution.setIs_primary(true);
+			 taskDistribution.setOrder_id(orderId);
+			 taskDistributionList.add(taskDistribution);
+			 
+			 List<RepairDistributionLog> repairDistributionLogList=new ArrayList<>();
+			 RepairDistributionLog repairDistributionLog=new RepairDistributionLog();
+			 repairDistributionLog.setLog_id(ZRIGenerater.generate("zhy/t_RepairDistributionLogService"));
+			 repairDistributionLog.setDistribution_id(taskDistributionId);
+			 repairDistributionLog.setOperator_id(operator);
+			 repairDistributionLog.setOperator_time(time);
+			 repairDistributionLog.setSys_hash("1");	
+			 repairDistributionLog.setBefore_status("待派发");
+			 repairDistributionLog.setAfter_status("待接单");
+			 repairDistributionLogList.add(repairDistributionLog);
+			 
+			 if(cooperateElectrician!=null&&!("").equals(cooperateElectrician)){
+				 String[] coop= cooperateElectrician.split(",");
+				 for(int i=0;i<coop.length;i++){
+					 Thread.sleep(1);
+					 RepairTaskDistribution task=new RepairTaskDistribution();
+					 String   taskId    =ZRIGenerater.generate("zhy/t_RepairTaskDistributionService");
+					 task.setDistribution_id(taskId);
+					 task.setDistribution_status("待接单");
+					 task.setElectrician_id(coop[i]);
+					 task.setTask_id(task_id);
+					 task.setIs_primary(false);
+					 task.setOrder_id(orderId);
+					 taskDistributionList.add(task);
+					 
+					 RepairDistributionLog Log=new RepairDistributionLog();
+					 Log.setLog_id(ZRIGenerater.generate("zhy/t_RepairDistributionLogService"));
+					 Log.setDistribution_id(taskId);
+					 Log.setOperator_id(operator);
+					 Log.setOperator_time(time);
+					 Log.setSys_hash("1");	
+					 Log.setBefore_status("待派发");
+					 Log.setAfter_status("待接单");
+					 repairDistributionLogList.add(Log);
+				 }
+			 }
+			 
+			 repairTaskDistributionDao.addTaskDistributionList(taskDistributionList);
+			 repairDistributionLogDao.addDistributionLog(repairDistributionLogList);
+			 RepairOrder repairOrder=new RepairOrder();
+			 repairOrder.setOrder_id(orderId);
+			 repairOrder.setOrder_status("待接单");
+			 repairOrder.setSys_hash("1");
+			 repairOrderDao.changeOrder(repairOrder);
+			 RepairOrderLog repairOrderLog=new RepairOrderLog();
+			 repairOrderLog.setOrder_id(orderId);
+			 repairOrderLog.setOperator_id(operator);
+			 repairOrderLog.setOperator_time(time);
+			 repairDistributionLog.setSys_hash("1");
+			 repairOrderLog.setBefore_status("待派发");
+			 repairOrderLog.setAfter_status("待接单");
+			 repairOrderLogDao.changeOrderLog(repairOrderLog);
+			 result.setMessage("success");
 		} catch (Exception e) {
-
 			result.setCode(Constants.SERVICE_ERROR);
 			result.setMessage("sendOrder error");
 		}

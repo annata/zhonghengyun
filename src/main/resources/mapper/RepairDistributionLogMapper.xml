@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+        
+ <mapper namespace="com.ioe.zhy.dao.RepairDistributionLogDao">
+ 
+ 	<!-- 添加任务日志列表 -->
+ 	<insert id="addDistributionLog" parameterType="java.util.List">
+ 	insert into t_repair_distribution_log(log_id,distribution_id,operator_id,before_status
+ 	,after_status,operator_time,sys_hash,sys_create_time) values 
+ 	<foreach collection="list" item="item" index="index" separator=",">
+ 	(#{item.log_id},#{item.distribution_id},#{item.operator_id},#{item.before_status},
+ 	#{item.after_status},#{item.operator_time},#{item.sys_hash},#{item.sys_create_time})
+ 	</foreach>
+ 	</insert>
+        
+        
+        
+        
+ </mapper>

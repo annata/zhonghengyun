@@ -15,9 +15,12 @@ import com.ioe.customer.client.service.EmployeeService;
 import com.ioe.zhy.dao.AreaDao;
 import com.ioe.zhy.dao.ElectricianDao;
 import com.ioe.zhy.dao.PowerClientAreaDao;
+import com.ioe.zhy.dao.ProjectDao;
 import com.ioe.zhy.dao.UserPowerClientFavorDao;
 import com.ioe.zhy.entity.Area;
 import com.ioe.zhy.entity.PowerClientArea;
+import com.ioe.zhy.entity.Project;
+import com.ioe.zhy.service.ProjectService;
 
 
 /**
@@ -41,8 +44,14 @@ public class One {
 	   @Resource
 	    private UserPowerClientFavorDao userPowerClientFavorDao;
 	   
+//	   @Resource
+//	   private EmployeeService employeeService;
+	   
 	   @Resource
-	   private EmployeeService employeeService;
+	   private ProjectService projectService;
+	   
+		@Resource
+		private ProjectDao projectDao;
 	@Test
 	public void test(){
 //		System.err.println(electricianDao.electricianIsExist("zhy/t_AssetAccountService:1484797223780"));
@@ -61,7 +70,26 @@ public class One {
 
 //		userPowerClientFavorDao.addFavorPowerClient("dfe", "fege");
 //		System.err.println(userPowerClientFavorDao.FavorPowerClientIsExist("dfe", "fege"));
-		System.out.println(employeeService.getEmployeeById("ee").toString());
+//		System.out.println(employeeService.getEmployeeById("ee").toString());
+		
+		Project project = new Project();
+		project.setRecord_id("zhy/t_WatchProjectService:1484721014623");
+		project.setResult("zheng");
+		project.setStatus(0);
+		project.setSave_time(System.currentTimeMillis());
+		project.setPowerClient_id("公司id");
+		project.setPowerClient_name("公司名字");
+		project.setElectrician_id("电工");
+		project.setElectrician_name("te");
+		project.setService_company_id("ere");
+		project.setSys_hash("1");
+//		projectDao.addProject(project);
+//		projectDao.updateProject(project);
+//		System.err.println(projectDao.getProjectById("zhy/t_WatchProjectService:1484721014623"));
+//		System.err.println(projectDao.getProjectCount(null, "公司id"));
+//		System.err.println(projectDao.getProjectRecordList(null, "公司id", 0, 7).size());
+		System.err.println(projectService.getProjectRecordList("公司id", null, 5, 1).getDataList().toString());
+		System.err.println(projectService.getProjectRecordList("公司id",null, 5, 1).getLength());
 	}
 	  
 

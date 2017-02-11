@@ -5,7 +5,9 @@ package zhonghengyun;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.annotation.Resource;
@@ -17,10 +19,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ioe.common.util.ZRIGenerater;
 import com.ioe.zhy.dao.AreaDao;
+import com.ioe.zhy.dao.RepairDistributionLogDao;
 import com.ioe.zhy.dao.RepairOrderDao;
 import com.ioe.zhy.dao.RepairOrderLogDao;
+import com.ioe.zhy.dao.RepairTaskDistributionDao;
+import com.ioe.zhy.dao.RrepairTaskDao;
+import com.ioe.zhy.entity.RepairDistributionLog;
 import com.ioe.zhy.entity.RepairOrder;
 import com.ioe.zhy.entity.RepairOrderLog;
+import com.ioe.zhy.entity.RepairTaskDistribution;
+import com.ioe.zhy.entity.RrepairTask;
 import com.ioe.zhy.service.RepairLogService;
 import com.ioe.zhy.service.RepairService;
 import com.ioe.zhy.util.ChineseCharToEn;
@@ -46,8 +54,18 @@ public class OrderTest {
 	   @Resource
 	   private RepairOrderDao repairOrderDao;
 	   
+	   @Resource
+		private RrepairTaskDao repairTaskDao;
+	   
+	   @Resource
+	   private RepairTaskDistributionDao repairTaskDistributionDao;
+	   
+	   
+	   @Resource
+	   private RepairDistributionLogDao repairDistributionLogDao;
+	   
 	   @Test
-	   public void test1(){
+	   public void test1() throws InterruptedException{
 		  
 
 //	 Result result=  repairService.addOrder("为啥是这样", "年", "联系人", "1234656", "来源", "ddfs", "er", "一般", "er");
@@ -57,6 +75,57 @@ public class OrderTest {
 //		   repairOrderLog.setOperator_id("史诗");
 //		   repairOrderLog.setOperator_time(System.currentTimeMillis());
 //		   repairOrderLogDao.changeOrderLog(repairOrderLog);
-		   repairService.ignoreOrder("zhy/t_RepairService:1486621165772", "诸葛", "不知道什么原因");
+//		   repairService.ignoreOrder("zhy/t_RepairService:1486621165772", "诸葛", "不知道什么原因");
+		   
+		   
+//		   RrepairTask  repairTask=new  RrepairTask();
+//			 repairTask.setTask_id(ZRIGenerater.generate("zhy/t_RrepairTask"));
+//			 repairTask.setOrder_id("zhy/t_RepairService:1486621181948");
+//			 repairTask.setSender("老虎");
+//			 repairTask.setSend_time(System.currentTimeMillis());
+//			 repairTask.setNeed_powerOff(false);
+//			 repairTask.setPowerOff_time("2014-11-12");
+//			 repairTask.setSys_hash("1");
+//			 repairTaskDao.addTask(repairTask);
+//		   List<RepairTaskDistribution> list=new  ArrayList<RepairTaskDistribution>();
+//		   RepairTaskDistribution ad=new RepairTaskDistribution();
+//		   ad.setDistribution_id(ZRIGenerater.generate("zhy/t_RepairTaskDistribution"));
+//		   ad.setOrder_id("zhy/t_RepairService:1486621181948");
+//		   ad.setIs_primary(true);
+//		   ad.setTask_id("zhy/t_RrepairTask:1486704937539");
+//		   ad.setDistribution_status("待接单");
+//		   RepairTaskDistribution sdfs=new RepairTaskDistribution();
+//		   sdfs.setDistribution_id(ZRIGenerater.generate("zhy/t_RepairTaskDistribution"));
+//		   sdfs.setOrder_id("zhy/t_RepairService:1486621181948");
+//		   sdfs.setIs_primary(false);
+//		   sdfs.setTask_id("zhy/t_RrepairTask:1486704937539");
+//		   sdfs.setDistribution_status("待接单");
+//		   list.add(sdfs);
+//		   list.add(ad);
+//		   repairTaskDistributionDao.addTaskDistributionList(list);
+//		   List<RepairDistributionLog> list=new ArrayList<>();
+//		   RepairDistributionLog r1=new RepairDistributionLog();
+//		   r1.setLog_id(ZRIGenerater.generate("zhy/t_RepairDistributionLog"));
+//		   r1.setDistribution_id("zhy/t_RepairTaskDistribution:1486707066435");
+//		   r1.setSys_hash("1");
+//		   r1.setOperator_time(System.currentTimeMillis());
+//		   Thread.sleep(12);
+//		   RepairDistributionLog r2=new RepairDistributionLog();
+//		   r2.setLog_id(ZRIGenerater.generate("zhy/t_RepairDistributionLog"));
+//		   r2.setDistribution_id("zhy/t_RepairTaskDistribution:1486707066434");
+//		   r2.setSys_hash("1");
+//		   r2.setOperator_time(System.currentTimeMillis());
+//		   list.add(r2);
+//		   list.add(r1);
+//		   repairDistributionLogDao.addDistributionLog(list);
+		   
+		   
+		   
+		   
+//	   repairService.sendOrder("zhy/t_RepairService:1486621181948", "派发人", false, System.currentTimeMillis()+"", "小小", "老大,老二,老三");
+		   System.err.println(  repairService.getTodoListByUserId("年","小小", "用电主管").getDataList().toString());
+		 
+		   
+		   
 	   }
 }

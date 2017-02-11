@@ -22,27 +22,26 @@ public class ProjectController {
     @RequestMapping("/add")
     @ResponseBody
     public Map add(Project project){
-        projectService.saveProjectRecord(project.getCategory(),project.getContent(),project.getResult(),project.isStatus(),project.getPowerClient_id(),project.getElectrician_id(),project.getService_company_id());
+       
         Map<String ,Object> result=new HashMap<>();
-        result.put("code","0");
+      
         return result;
     }
 
     @RequestMapping("/update")
     @ResponseBody
     public Map update(Project project){
-        projectService.updateProjectRecord(project.getRecord_id(),project.getCategory(),project.getContent(),project.getResult(),project.isStatus(),project.getPowerClient_id(),project.getElectrician_id(),project.getService_company_id());
-        Map<String ,Object> result=new HashMap<>();
-        result.put("code","0");
+    	Map<String ,Object> result=new HashMap<>();
+      
         return result;
     }
 
     @RequestMapping("/get")
     @ResponseBody
-    public Map get(String powerClient_id){
+    public Map get(String companyId,Integer status,int pageSize,int pageIndex){
         Map<String ,Object> result=new HashMap<>();
         result.put("code","0");
-        result.put("data",projectService.getProjectRecord(powerClient_id));
+        result.put("data",projectService.getProjectRecordList(companyId, status, pageSize, pageIndex));
         return result;
     }
 }
