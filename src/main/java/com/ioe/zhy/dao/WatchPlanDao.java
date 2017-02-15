@@ -18,13 +18,18 @@ import com.ioe.zhy.entity.WatchRecord;
 public interface WatchPlanDao {
 	public int addWatchPlan(WatchPlan watchPlan);
 	public int updateWatchPlan(WatchPlan watchPlan);
+	public WatchPlan     getWatchPlanById(String plan_id);
 	public int deleteWatchPlan(@Param("plan_id")String plan_id,@Param("sys_hash")String sys_hash);
-	public int  beginWatch(@Param("start_real_time")long start_real_time,@Param("plan_id")String plan_id,@Param("sys_hash")String sys_hash);
-	public int  completeWatch(@Param("end_real_time")long end_real_time,@Param("plan_id")String plan_id,@Param("sys_hash")String sys_hash);
-	public int deleteWatchRecord(@Param("plan_id")String plan_id,@Param("sys_hash")String sys_hash);
-	public int addWatchRecord(@Param("record_id")String record_id,@Param("plan_id")String plan_id,@Param("sys_hash")String sys_hash,@Param("content")String content,@Param("sys_create_time")Date sys_create_time);
-	public List<WatchPlan> getWatchPlan(@Param("watcher_id")String watcher_id,@Param("nowTime")long nowTime);
-	public List<WatchPlan> getHistoryWatchPlan(@Param("watcher_id")String watcher_id,@Param("start_time")long start_time,@Param("end_time")long end_time,@Param("nowTime") long nowTime,@Param("startNumber")Integer startNumber,@Param("PageCount")Integer PageCount);
-	public int selectHistoryWatchPlanCountByUserId(@Param("watcher_id")String watcher_id,@Param("start_time")long start_time);
-	public WatchRecord  getWatchRecordByPlanId(String plan_id);
+	public List<WatchPlan>   getWatchPlan(@Param("watcher_id")String watcher_id,@Param("type")boolean type,@Param("nowTime")long nowTime,@Param("startNumber")Integer startNumber,@Param("PageCount")Integer PageCount);
+	public int getWatchPlanCountByUserId(@Param("watcher_id")String watcher_id,@Param("type")boolean type,@Param("nowTime")long nowTime);
+	public List<WatchPlan> getHistoryWatchPlan(@Param("watcher_id")String watcher_id,@Param("type")boolean type,@Param("nowTime")long nowTime,@Param("start_time")long start_time,@Param("end_time")long end_time,@Param("startNumber")Integer startNumber,@Param("PageCount")Integer PageCount);
+	public int getHistoryWatchPlanCountByUserId(@Param("watcher_id")String watcher_id,@Param("type")boolean type,@Param("nowTime")long nowTime,@Param("start_time")long start_time,@Param("end_time")long end_time);
+	//	public int  beginWatch(@Param("start_real_time")long start_real_time,@Param("plan_id")String plan_id,@Param("sys_hash")String sys_hash);
+//	public int  completeWatch(@Param("end_real_time")long end_real_time,@Param("plan_id")String plan_id,@Param("sys_hash")String sys_hash);
+//	public int deleteWatchRecord(@Param("plan_id")String plan_id,@Param("sys_hash")String sys_hash);
+//	public int addWatchRecord(@Param("record_id")String record_id,@Param("plan_id")String plan_id,@Param("sys_hash")String sys_hash,@Param("content")String content,@Param("sys_create_time")Date sys_create_time);
+//	public List<WatchPlan> getWatchPlan(@Param("watcher_id")String watcher_id,@Param("nowTime")long nowTime);
+//	public List<WatchPlan> getHistoryWatchPlan(@Param("watcher_id")String watcher_id,@Param("start_time")long start_time,@Param("end_time")long end_time,@Param("nowTime") long nowTime,@Param("startNumber")Integer startNumber,@Param("PageCount")Integer PageCount);
+//	public int selectHistoryWatchPlanCountByUserId(@Param("watcher_id")String watcher_id,@Param("start_time")long start_time);
+//	public WatchRecord  getWatchRecordByPlanId(String plan_id);
 }

@@ -13,11 +13,11 @@
 	<!-- 参照 http://wiki.smarteoc.com/doku.php?id=wiki:dubbo-port 新建项目累加-->
     <dubbo:protocol name="dubbo"  port="20170" />
 	
-<!--     <dubbo:service  interface="com.ioe.zhy.service.WatchManageService" version="1.0.0" timeout="30000" ref="watchManageService" /> -->
+    <dubbo:service  interface="com.ioe.zhy.service.WatchManageService" version="1.0.0" timeout="30000" ref="watchManageService" />
 	
-<!-- 	<dubbo:service interface="com.ioe.zhy.service.ProjectService" version="1.0.0" timeout="30000" ref="projectService" /> -->
+	<dubbo:service interface="com.ioe.zhy.service.ProjectService" version="1.0.0" timeout="30000" ref="projectService" />
 	
 	
-	
-<!--  	 <dubbo:reference interface="com.ioe.customer.client.service.EmployeeService" id="employeeService"  check="false"/>  -->
+	<dubbo:reference interface="com.ioe.client.service.NoticePushService" id="noticePushService"  check="false" />
+ 	 <dubbo:reference interface="com.ioe.customer.client.service.EmployeeService" id="employeeService"  check="false"/> 
 </beans>

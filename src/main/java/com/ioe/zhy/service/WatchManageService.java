@@ -26,34 +26,28 @@ public interface WatchManageService {
 	 * @param areaId  区域id
 	 * @param startTime  计划开始时间
 	 * @param endTime    计划结束时间
-	 * @param startRealTime  实际开始时间
-	 * @param endRealTime    实际结束时间
-	 * @param watcherId     值班人id
-	 * @param leaderId     值班领导id
+	 * @param watcher  值班人名字列表
+	 * @param watcherId    值班人id列表
 	 * @param type      计划类型
 	 * @return    操作结果，成功时包含监控项唯一标识RI
 	 */
-	public Result addWatchPlan(String areaId, long startTime, long endTime, long startRealTime, long endRealTime,
-			long watcherId, long leaderId, boolean type);
+	public Result addWatchPlan(String areaId, long startTime, long endTime,String watcher,String watcherId, boolean type);
 
 	
 	
 	
 	/**
 	 * 修改值班计划
-	 * @param planId  计划id
+	 * @param planId 值班id
 	 * @param areaId  区域id
 	 * @param startTime  计划开始时间
 	 * @param endTime    计划结束时间
-	 * @param startRealTime  实际开始时间
-	 * @param endRealTime    实际结束时间
-	 * @param watcherId     值班人id
-	 * @param leaderId     值班领导id
+	 * @param watcher  值班人名字列表
+	 * @param watcherId    值班人id列表
 	 * @param type      计划类型
 	 * @return    操作结果，成功时包含监控项唯一标识RI
 	 */
-	public Result updateWatchPlan(String planId, String areaId, long startTime, long endTime, long startRealTime, long endRealTime,
-			long watcherId, long leaderId, boolean type);
+	public Result updateWatchPlan(String planId, String areaId, long startTime, long endTime,String watcher,String watcherId, boolean type);
 
 	/**
 	 * 删除值班计划
@@ -62,45 +56,64 @@ public interface WatchManageService {
 	 */
 	public Result deleteWatchPlan(String planId);
 	
+	
+	
 	/**
 	 * 接班
-	 * @param planId 计划id
-	 * @return    操作结果，成功时包含监控项唯一标识RI
+	 * @Title: beginWatch 
+	 * @param planId  计划id
+	 * @param userId  用户的id
+	 * @return   
+	 * @throws
 	 */
-	public  Result beginWatch(String planId);
+	public  Result beginWatch(String planId,String userId);
 	
 	
 	/**
 	 * 交班
 	 * @param planId 计划id
+	 * @param userId  用户的id
+	 * @param content 值班记录
 	 * @return    操作结果，成功时包含监控项唯一标识RI
 	 */
-	public Result completeWatch(String planId,String content);
+	public Result completeWatch(String planId,String userId,String content);
+	
+	
 	
 	/**
 	 * 查询值班计划
-	 * @param userId   用户id
-	 * @return   操作结果，成功时包含监控项唯一标识RI
+	 * @Title: getWatchPlan 
+	 * @param userId  用户id
+	 * @param type  计划类型
+	 * @param pageIndex  显示第几页 
+	 * @param pageSize   每页大小
+	 * @return   
+	 * @throws
 	 */
-	public ListResult<WatchPlan> getWatchPlan(String userId);
+	public PageResult<WatchPlan> getWatchPlan(String userId,boolean type,Integer  pageIndex,Integer pageSize);
 	
 	
+	
+
 	
 	/**
 	 * 查询历史值班
-	 * @param userId 用户id
-	 * @param startTime 开始时间
-	 * @param endTime  结束时间
-	 * @param pageIndex  显示第几页 
+	 * @Title: getHistoryWatchPlan 
+	 * @param userId  用户id
+	 * @param type  计划类型
+	 * @param startTime   开始时间结束时间
+	 * @param endTime   结束时间
+	 * @param pageIndex   显示第几页 
 	 * @param pageSize  每页大小
 	 * @return   
+	 * @throws
 	 */
-	public PageResult<WatchPlan> getHistoryWatchPlan(String userId,long startTime,long endTime, Integer  pageIndex,Integer pageSize);
+	public PageResult<WatchPlan> getHistoryWatchPlan(String userId,boolean type,long startTime,   long endTime, Integer  pageIndex,Integer pageSize);
 	
 	/**
 	 * 查询值班记录
 	 * @param planId  计划id
 	 * @return   
 	 */
-	public DataResult<WatchRecord> getWatchRecordByPlanId(String planId);
+	public DataResult<String> getWatchRecordByPlanId(String planId);
 }

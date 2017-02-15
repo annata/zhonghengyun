@@ -12,6 +12,9 @@ import com.ioe.zhy.entity.RepairDistributionLog;
  *
  */
 public interface RepairDistributionLogDao {
-	public int addDistributionLog(List<RepairDistributionLog> list);
+	public int addDistributionLogList(List<RepairDistributionLog> list);
+	public int addDistributionLog(RepairDistributionLog repairDistributionLog);
+	
+//	public int changeDistributionLog(RepairDistributionLog repairDistributionLog);
 
 }

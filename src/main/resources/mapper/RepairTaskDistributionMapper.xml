@@ -15,10 +15,45 @@
  	</foreach>
  	</insert>
  	
+ 	<!-- 获取代办任务 -->
  	<select id="getTodoLists" parameterType="String" resultType="com.ioe.zhy.entity.RepairOrder">
  	select a.* from t_repair_order a where  a.order_id=(select order_id from t_repair_task_distribution where  sys_record_status=0  and electrician_id=#{userId} and distribution_status 
 in ('待接单','待签到','待完成'))
  	</select>
+ 	
+ 	<!-- 根据任务id更改任务 -->
+ 	<update id="changeDistributionById" parameterType="com.ioe.zhy.entity.RepairTaskDistribution">
+ 	update t_repair_task_distribution <set>
+ 	<if test="is_primary!=null">is_primary=#{is_primary},</if>  
+ 	<if test="sign_in_location!=null">sign_in_location=#{sign_in_location},</if>  
+ 	<if test="sign_in_address!=null">sign_in_address=#{sign_in_address},</if>  
+ 	<if test="sign_in_img!=null">sign_in_img=#{sign_in_img},</if>  
+ 	<if test="distribution_status!=null">distribution_status=#{distribution_status},</if>  
+ 	<if test="sys_record_status!=null">sys_record_status=#{sys_record_status}</if>  
+ 	</set>
+ 	where distribution_id=#{distribution_id}
+ 	</update>
+ 	
+ 	<!-- 根据任务id获取任务状态 -->
+ 	<select id="getDistributionStatusById" parameterType="String" resultType="String">
+ 	select  distribution_status  from  t_repair_task_distribution    	where sys_record_status=0  and  distribution_id=#{distribution_id}
+ 	</select>
+ 	
+ 	   <!-- 查询指定任务已签到的人数 -->
+    <select id="getSignInCounts" parameterType="String" resultType="int">
+    select count(distribution_id) from t_repair_task_distribution where  sys_record_status=0  and 
+    task_id =(select task_id from t_repair_task_distribution where distribution_id=#{distribution_id}) and distribution_status='已签到'
+    </select>
+        
+ 	<!-- 查询指定任务的人数 -->
+ 	<select id="getTaskCounts" parameterType="String" resultType="int">
+    select count(distribution_id) from t_repair_task_distribution where  sys_record_status=0  and 
+    task_id =(select task_id from t_repair_task_distribution where distribution_id=#{distribution_id}) 
+    </select>
  
+ 	<!-- 根据任务id获取相关人员 -->
+ 	<select id="getPeoplesByTaskId" parameterType="String" resultType="map">
+ 	select electrician_id,is_primary  from   t_repair_task_distribution where  sys_record_status=0 and task_id=#{task_id}
+ 	</select>
         
  </mapper>

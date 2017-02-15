@@ -5,7 +5,7 @@
  <mapper namespace="com.ioe.zhy.dao.RepairDistributionLogDao">
  
  	<!-- 添加任务日志列表 -->
- 	<insert id="addDistributionLog" parameterType="java.util.List">
+ 	<insert id="addDistributionLogList" parameterType="java.util.List">
  	insert into t_repair_distribution_log(log_id,distribution_id,operator_id,before_status
  	,after_status,operator_time,sys_hash,sys_create_time) values 
  	<foreach collection="list" item="item" index="index" separator=",">
@@ -13,8 +13,26 @@
  	#{item.after_status},#{item.operator_time},#{item.sys_hash},#{item.sys_create_time})
  	</foreach>
  	</insert>
+ 	
+ 	<!-- 添加任务日志 -->
+ 	<insert id="addDistributionLog" parameterType="com.ioe.zhy.entity.RepairDistributionLog">
+ 	insert into t_repair_distribution_log(log_id,distribution_id,operator_id,before_status
+ 	,after_status,operator_time,remark,sys_hash,sys_create_time) values(#{log_id},#{distribution_id},#{operator_id},#{before_status},
+ 	#{after_status},#{operator_time},#{remark},#{sys_hash},#{sys_create_time})
+ 	</insert>
+ 	
+ 	<!-- 修改工单任务日志 -->
+<!--     <update id="changeDistributionLog" parameterType="com.ioe.zhy.entity.RepairDistributionLog"> -->
+<!--     update t_repair_distribution_log <set> -->
+<!--     <if test="operator_id!=null">operator_id=#{operator_id}, </if> -->
+<!--     <if test="before_status!=null">before_status=#{before_status}, </if> -->
+<!--     <if test="after_status!=null">after_status=#{after_status}, </if> -->
+<!--     <if test="operator_time!=null">operator_time=#{operator_time}, </if> -->
+<!--     <if test="sys_hash!=null">sys_hash=#{sys_hash} </if> -->
+<!--     </set> -->
+<!--     where distribution_id=#{distribution_id} -->
+<!--     </update>     -->
         
-        
-        
+       
         
  </mapper>

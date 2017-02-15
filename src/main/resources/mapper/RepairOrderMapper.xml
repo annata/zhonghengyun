@@ -40,6 +40,19 @@
     <select id="getTodoOrder" parameterType="String" resultType="com.ioe.zhy.entity.RepairOrder">
     select * from   t_repair_order where   sys_record_status=0 and   powerClient_id=#{powerClient_id} and order_status in ('待派发','待接单','待签到','待完成','请延期');
     </select>
+    
+    <!-- 根据工单id获取工单状态 -->
+    <select id="getOrderStatusById" parameterType="String" resultType="String">
+    select order_status from t_repair_order 	where  order_id=#{order_id}  
+    </select>
+    
+    <!-- 跟据工单id获取工单 -->
+    <select id="getOrderById" parameterType="String" resultType="com.ioe.zhy.entity.RepairOrder">
+    select *  from t_repair_order 	where  order_id=#{order_id} 
+    </select>
+    
+ 	<!-- 获取相关人员信息 -->
         
+    
         
  </mapper>

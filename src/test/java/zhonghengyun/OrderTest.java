@@ -123,9 +123,11 @@ public class OrderTest {
 		   
 		   
 //	   repairService.sendOrder("zhy/t_RepairService:1486621181948", "派发人", false, System.currentTimeMillis()+"", "小小", "老大,老二,老三");
-		   System.err.println(  repairService.getTodoListByUserId("年","小小", "用电主管").getDataList().toString());
-		 
-		   
-		   
+//		   System.err.println(  repairService.getTodoListByUserId("年","小小", "用电主管").getDataList().toString());
+//		 System.err.println(repairService.refuseOrder("老三", "zhy/t_RepairTaskDistributionService:1486714979321", "zhy/t_RepairService:1486621181948","不知道什么原因"));
+//		 System.err.println(repairService.updateOrder("zhy/t_RepairService:1486621181948", "er", "laiyuan", "远动"));  
+//		 System.err.println (repairService.getBaseInfoByOrderId("zhy/t_RepairService:1486621082656").getData().toString());
+//	  System.err.println(repairService.signInOrder("老三", "zhy/t_RepairTaskDistributionService:1486714979321", "zhy/t_RepairService:1486621181948", "19523", "ere", "ere"));
+	  System.err.println(repairTaskDistributionDao.getPeoplesByTaskId("zhy/t_RrepairTask:1486714979211").toString());
 	   }
 }

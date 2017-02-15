@@ -11,5 +11,6 @@ import com.ioe.zhy.entity.RrepairTask;
  */
 public interface RrepairTaskDao {
 	public int addTask(RrepairTask repairTask);
+	public String getNewstaskIdByOrderId(String order_id); 
 
 }

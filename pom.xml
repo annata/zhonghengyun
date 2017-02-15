@@ -33,16 +33,38 @@
       <name>com.ioe</name> 
       <url>http://10.1.170.206:8081/nexus/content/groups/public/</url> 
     </repository> 
+
   </repositories>
   
     <dependencies>  
     
+<!-- 	<dependency> -->
+<!--     <groupId>com.ioe</groupId> -->
+<!-- 	<artifactId>parent</artifactId> -->
+<!-- 	<version>1.1.0-RELEASE</version> -->
+<!-- 	</dependency> -->
     <dependency>
   		<groupId>com.ioe</groupId>
  	 <artifactId>customer-client</artifactId>
  	 <version>2.0.0-RELEASE</version>
 	</dependency>
-
+		<dependency>
+  <groupId>com.ioe</groupId>
+  <artifactId>notification-client</artifactId>
+  <version>2.0.0-RELEASE</version>
+</dependency>
+		
+	
+<!-- 		<dependency> -->
+<!--   	<groupId>com.ioe</groupId> -->
+<!--   	<artifactId>notification-parent</artifactId> -->
+<!--   	<version>2.0.0-RELEASE</version> -->
+<!-- 	</dependency> -->
+		<parent>
+	<groupId>com.ioe</groupId>
+	<artifactId>openapi-parent</artifactId>
+	<version>1.0.0-RELEASES</version>
+	</parent>
 		<dependency>
 			<groupId>com.ioe</groupId>
 			<artifactId>config-client</artifactId>

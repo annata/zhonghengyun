@@ -20,4 +20,6 @@ public interface RepairOrderDao {
 	public String getTodayLastOrder(@Param("zeroTime")Date zeroTime,@Param("twelve")Date twelve);
 	public int changeOrder(RepairOrder repairOrder);
 	public List<RepairOrder> getTodoOrder(String powerClient_id);
+	public String getOrderStatusById(String order_id);
+	public RepairOrder getOrderById(String order_id);
 }

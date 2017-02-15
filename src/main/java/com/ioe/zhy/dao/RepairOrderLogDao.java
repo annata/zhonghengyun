@@ -11,7 +11,7 @@ import com.ioe.zhy.entity.RepairOrderLog;
  */
 public interface RepairOrderLogDao {
 	public int addOrderLog(RepairOrderLog repairOrderLog);
-	public int changeOrderLog(RepairOrderLog repairOrderLog);
+//	public int changeOrderLog(RepairOrderLog repairOrderLog);
 	public String getOrderStatus(String order_id);
 
 }

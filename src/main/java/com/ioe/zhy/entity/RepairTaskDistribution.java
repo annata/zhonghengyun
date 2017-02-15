@@ -15,7 +15,7 @@ public class RepairTaskDistribution {
 	private String task_id;            //任务编号，同一次派单产生多个任务，任务编号相同
 	private String electrician_id;         //电工id
 	private boolean is_primary;            //是否为主要负责人
-	private String sign_in_location;       //抢修距离,单位千米
+	private String sign_in_location;       //抢修经纬度
 	private String sign_in_address;        //签到地址
 	private String sign_in_img;           //签到照片
 	private String distribution_status;		//任务状态

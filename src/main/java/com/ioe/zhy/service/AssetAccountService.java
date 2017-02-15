@@ -3,6 +3,8 @@
  */
 package com.ioe.zhy.service;
 
+import java.util.Map;
+
 import com.ioe.zhy.entity.Electrician;
 import com.ioe.zhy.util.DataResult;
 import com.ioe.zhy.util.ListResult;
@@ -97,6 +99,6 @@ public interface AssetAccountService {
 	public Result cancelFavorPowerClient(String userId,String powerClientId );
 	
 	
-	
+
 
 }

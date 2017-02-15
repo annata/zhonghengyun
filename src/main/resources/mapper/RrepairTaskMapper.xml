@@ -9,6 +9,9 @@
  	#{need_powerOff},#{powerOff_time},#{sys_hash},#{sys_create_time})
  	</insert>
  
- 
+ 	 <!-- 获取最新的任务id -->
+     <select id="getNewstaskIdByOrderId" parameterType="String" resultType="String">
+     select task_id from t_repair_task t where not exists(select 1 from t_repair_task c where c.send_time>t.send_time )  and order_id=#{order_id} and sys_record_status=0
+     </select>   
         
  </mapper>

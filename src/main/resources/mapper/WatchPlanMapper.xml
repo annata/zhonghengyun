@@ -7,10 +7,8 @@
  
  	<!-- 添加值班计划 -->	
 	<insert id="addWatchPlan" parameterType="com.ioe.zhy.entity.WatchPlan">
-	insert into t_watch_plan(plan_id,area_id,start_time,end_time,start_real_time
-	,end_real_time,watcher_id,leader_id,type,sys_hash,sys_create_time)
-	 values(#{plan_id},#{area_id},#{start_time},#{end_time},
-	#{start_real_time},#{end_real_time},#{watcher_id},#{leader_id},#{type},#{sys_hash},#{sys_create_time})
+	insert into t_watch_plan(plan_id,area_id,start_time,end_time,watcher,watch_leader,type,sys_hash,sys_create_time)
+	 values(#{plan_id},#{area_id},#{start_time},#{end_time},#{watcher},#{watch_leader},#{type},#{sys_hash},#{sys_create_time})
 	
 	</insert>
 	
@@ -21,91 +19,76 @@
 	<if test="area_id!=null">area_id=#{area_id},</if>
 	<if test="start_time!=null">start_time=#{start_time},</if>
 	<if test="end_time!=null">end_time=#{end_time},</if>
-	<if test="start_real_time!=null">start_real_time=#{start_real_time},</if>
-	<if test="end_real_time!=null">end_real_time=#{end_real_time},</if>
-	<if test="watcher_id!=null">watcher_id=#{watcher_id},</if>
-	<if test="leader_id!=null">leader_id=#{leader_id},</if>
+	<if test="watcher!=null">watcher=#{watcher},</if>
+	<if test="watch_leader!=null">watch_leader=#{watch_leader},</if>
 	<if test="type!=null">type=#{type},</if>
 	<if test="sys_hash!=null">sys_hash=#{sys_hash}</if>
 	</set>  where plan_id=#{plan_id}
 	</update>
+	
+	<!-- 根据值班id查询值班信息 -->
+	<select id="getWatchPlanById" parameterType="String" resultType="com.ioe.zhy.entity.WatchPlan">
+	select * from   t_watch_plan  where plan_id=#{plan_id}
+	</select> 
 
 	<!-- 删除值班计划 -->
-	<update id="deleteWatchPlan" parameterType="String">
+	<update id="deleteWatchPlan" >
 		update  t_watch_plan
 		<set>
 		<if test="sys_hash!=null">sys_hash=#{sys_hash},</if>
 		sys_record_status=1
 		</set>
-		where plan_id=#{plan_id}  and  (start_real_time is  null  or start_real_time=0) 
+		where plan_id=#{plan_id}  
 	</update>
 	
-	<select id=""></select>
 	
-	
-	<!-- 删除值班记录 -->
-	<update id="deleteWatchRecord" parameterType="String">
-	update  t_watch_record
-	<set>
-		<if test="sys_hash!=null">sys_hash=#{sys_hash},</if>
-		sys_record_status=1
-		</set>
-		where plan_id=#{plan_id}
-	</update>
-	
-	<!-- 接班 -->
-	<update id="beginWatch" >
-	update t_watch_plan <set>
-	<if test="sys_hash!=null">sys_hash=#{sys_hash},</if>
-	<if test="start_real_time!=null">start_real_time=#{start_real_time}</if>
-	
-	</set> where plan_id=#{plan_id}
-	</update>
-	
-	<!-- 交班 -->
-	<update id="completeWatch">
-		update t_watch_plan <set>
-		<if test="sys_hash!=null">sys_hash=#{sys_hash},</if>
-	<if test="end_real_time!=null">end_real_time=#{end_real_time}</if>
-	</set> where plan_id=#{plan_id}
-	</update>
-	
-	<!-- 添加值班记录 -->
-	<insert id="addWatchRecord">
-	insert  into t_watch_record(record_id,plan_id,content,sys_hash,sys_create_time) values(#{record_id},#{plan_id},#{content},#{sys_hash},#{sys_create_time}) 
-	</insert>
-	
-	<!-- 查询值班计划 -->
-	<select id="getWatchPlan" resultType="com.ioe.zhy.entity.WatchPlan">
-		 
-	select * from  t_watch_plan where 
-	<if test="watcher_id!=null and watcher_id!=''"> watcher_id=#{watcher_id} and </if>
 
-	    <![CDATA[ start_time>#{nowTime} ]]>	 and sys_record_status=0
 	
+	
+
+	
+	<!-- 分页查询值班计划 --> 
+	<select id="getWatchPlan" resultType="com.ioe.zhy.entity.WatchPlan">
+	select * from  t_watch_plan where  exists
+	(select plan_id from t_watch_record  where  <if test="watcher_id!=null and watcher_id!=''"> watcher_id=#{watcher_id}  and </if>   sys_record_status=0)
+	 and  <if test="type!=null"> type=#{type} and </if> 
+	<![CDATA[ start_time>#{nowTime} ]]>	and sys_record_status=0 limit #{startNumber},#{PageCount}
 	</select>
-	
-	<!-- 分页查询历史值班 -->
-	<select id="getHistoryWatchPlan" resultType="com.ioe.zhy.entity.WatchPlan">	
-	select * from  t_watch_plan where 
-	<if test="watcher_id!=null and watcher_id!=''"> watcher_id=#{watcher_id} and </if>
-	<if test="start_time!=null and start_time!=0"> <![CDATA[  start_time<#{start_time} and   ]]></if>
+
+		<!-- 查询值班总数 --> 
+	<select id="getWatchPlanCountByUserId" resultType="int">
+	select count(plan_id) from t_watch_plan where  exists
+	(select plan_id from t_watch_record  where  <if test="watcher_id!=null and watcher_id!=''"> watcher_id=#{watcher_id}   and </if>  sys_record_status=0)
+	 and <if test="type!=null"> type=#{type} and </if> 
+	 <![CDATA[ start_time>#{nowTime} ]]> and sys_record_status=0 
+	</select>
+
+
+	<!-- 分页查询历史值班 --> 
+	<select id="getHistoryWatchPlan" resultType="com.ioe.zhy.entity.WatchPlan">
+	select * from  t_watch_plan where  exists
+	(select plan_id from t_watch_record  where  <if test="watcher_id!=null and watcher_id!=''"> watcher_id=#{watcher_id}  and </if>   sys_record_status=0)
+	 and  <if test="type!=null"> type=#{type} and </if> 
+	 <if test="start_time!=null and start_time!=0"> <![CDATA[  start_time<#{start_time} and   ]]></if>
 	<if test="end_time!=null and end_time!=0"> <![CDATA[  end_time>#{end_time} and   ]]></if>
-	  sys_record_status=0  and      <![CDATA[ start_time<#{nowTime} ]]>	limit #{startNumber},#{PageCount} 
-	
+	<![CDATA[ start_time<#{nowTime} ]]>	and sys_record_status=0 limit #{startNumber},#{PageCount}
 	</select>
 	
-	<!-- 查询指定人员历史值班总数 -->
-	<select id="selectHistoryWatchPlanCountByUserId" resultType="int">
-	  <![CDATA[
-	select count(plan_id) from t_watch_plan where  watcher_id=#{watcher_id} and start_time<#{start_time} and sys_record_status=0
-	]]>
-	</select>
+	<!-- 查询指定人员历史值班总数 --> 
+	<select id="getHistoryWatchPlanCountByUserId" resultType="int"> 
+	select count(plan_id) from  t_watch_plan where  exists
+	(select plan_id from t_watch_record  where  <if test="watcher_id!=null and watcher_id!=''"> watcher_id=#{watcher_id}  and </if>   sys_record_status=0)
+	 and  <if test="type!=null"> type=#{type} and </if> 
+	 <if test="start_time!=null and start_time!=0"> <![CDATA[  start_time<#{start_time} and   ]]></if>
+	<if test="end_time!=null and end_time!=0"> <![CDATA[  end_time>#{end_time} and   ]]></if>
+	<![CDATA[ start_time<#{nowTime} ]]>	and sys_record_status=0
+	</select> 
+
 	
-	<!-- 查询指定计划的值班记录 -->
-	<select id="getWatchRecordByPlanId" parameterType="String" resultType="com.ioe.zhy.entity.WatchRecord">
-	select * from t_watch_record where plan_id=#{plan_id} and sys_record_status=0
-	</select>
+	<!-- 查询指定计划的值班记录 --> 
+<!-- 	<select id="getWatchRecordByPlanId" parameterType="String" resultType="com.ioe.zhy.entity.WatchRecord"> -->
+<!-- 	select * from t_watch_record where plan_id=#{plan_id} and sys_record_status=0 -->
+<!-- 	</select> -->
 	
 	
 </mapper>
