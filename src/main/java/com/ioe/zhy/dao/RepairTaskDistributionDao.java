@@ -30,5 +30,9 @@ public interface RepairTaskDistributionDao {
 	
 	public int changeDistributionStatusByTaskId(@Param("task_id")String task_id,@Param("distribution_status")String distribution_status);
 	
+	public   List<RepairOrder>     getHistoryByElectricianId(@Param("userId")String userId,
+	@Param("createTime")long createTime,@Param("completeTime")long completeTime,@Param("startNumber")Integer startNumber,@Param("PageCount")Integer PageCount);
 
+	public int  getHistoryCountsByElectricianId(@Param("userId")String userId,
+	@Param("createTime")long createTime,@Param("completeTime")long completeTime);
 }

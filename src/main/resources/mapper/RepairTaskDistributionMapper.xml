@@ -17,7 +17,7 @@
  	
  	<!-- 获取代办任务 -->
  	<select id="getTodoLists" parameterType="String" resultType="com.ioe.zhy.entity.RepairOrder">
- 	select a.* from t_repair_order a where  a.order_id=(select order_id from t_repair_task_distribution where  sys_record_status=0  and electrician_id=#{userId} and distribution_status 
+ 	select * from t_repair_order  where order_id in (select order_id from t_repair_task_distribution where  sys_record_status=0  and electrician_id=#{userId} and distribution_status 
 in ('待接单','待签到','待完成'))
  	</select>
  	
@@ -66,6 +66,23 @@ in ('待接单','待签到','待完成'))
  	<update id="changeDistributionStatusByTaskId" >
  	update t_repair_task_distribution set distribution_status=#{distribution_status} where task_id=#{task_id}
  	</update>
+ 	
+ 	
+ 	<!-- 电工获取历史值班 -->
+ 	<select id="getHistoryByElectricianId" resultType="com.ioe.zhy.entity.RepairOrder">
+
+ 		<![CDATA[
+ 	select a.* from t_repair_order  a   join  t_repair_task_distribution b on a.order_id=b.order_id and b.sys_record_status=0  and b.electrician_id=#{userId} and  b.distribution_status 
+in ('已回退','已延期','待评价','已评价') and a.create_time<#{completeTime} and a.create_time>#{createTime}  limit #{startNumber},#{PageCount}    ]]>
+ 	
+ 	</select>
+ 	
+ 	  <!-- 电工获取历史值班的数量 -->
+ 	  	<select id="getHistoryCountsByElectricianId" resultType="int">
+	<![CDATA[
+select count(a.order_id) from t_repair_order  a   join  t_repair_task_distribution b on a.order_id=b.order_id and b.sys_record_status=0  and b.electrician_id=#{userId} and  b.distribution_status 
+in ('已回退','已延期','待评价','已评价') and a.create_time<#{completeTime} and a.create_time>#{createTime}     ]]>
+ 	  	</select>
  	
         
  </mapper>

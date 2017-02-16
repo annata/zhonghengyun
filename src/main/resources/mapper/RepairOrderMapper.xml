@@ -14,10 +14,10 @@
      <!-- 添加工单 -->   
     <insert id="addOrder" parameterType="com.ioe.zhy.entity.RepairOrder">
     insert into t_repair_order(order_id,order_no,powerClient_id,powerClient_manager,manager_phone,
-    fault_source,fault_device,fault_desc,fault_level,area_electrician,order_status,sys_hash,sys_create_time) values
+    fault_source,fault_device,fault_desc,fault_level,area_electrician,order_status,create_time,sys_hash,sys_create_time) values
      (#{order_id},#{order_no},#{powerClient_id},#{powerClient_manager},#{manager_phone},
      #{fault_source},#{fault_device},#{fault_desc},#{fault_level},#{area_electrician},#{order_status}
-     ,#{sys_hash},#{sys_create_time})
+    ,#{create_time} ,#{sys_hash},#{sys_create_time})
     </insert>    
     
     <!-- 修改工单 -->
@@ -43,16 +43,26 @@
     
     <!-- 根据工单id获取工单状态 -->
     <select id="getOrderStatusById" parameterType="String" resultType="String">
-    select order_status from t_repair_order 	where  order_id=#{order_id}  
+    select order_status from t_repair_order 	where  order_id=#{order_id}  and sys_record_status=0
     </select>
     
     <!-- 跟据工单id获取工单 -->
     <select id="getOrderById" parameterType="String" resultType="com.ioe.zhy.entity.RepairOrder">
-    select *  from t_repair_order 	where  order_id=#{order_id} 
+    select *  from t_repair_order 	where  order_id=#{order_id}  and sys_record_status=0
     </select>
     
-
-        
+	<!-- 主管获取历史值班 -->
+    <select id="getHistoryBypowerClientId"  resultType="com.ioe.zhy.entity.RepairOrder">
+   <![CDATA[  select * from t_repair_order where sys_record_status=0 and  powerClient_id=#{powerClientId}  and   
+     create_time<#{completeTime} and create_time>#{createTime}   and order_status  in('已忽略','已延期','待评价','已评价')  limit #{startNumber},#{PageCount} ]]>
+    </select>
+    
+    <!-- 主管获取历史值班的数量 -->
+    <select id="getHistoryCountsBypowerClientId" resultType="int">
+     <![CDATA[  select count(order_id) from t_repair_order where sys_record_status=0 and  powerClient_id=#{powerClientId}  and   
+     create_time<#{completeTime} and create_time>#{createTime}   and order_status  in('已忽略','已延期','待评价','已评价')  ]]>
+    </select>
+    
     
         
  </mapper>

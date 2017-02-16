@@ -24,6 +24,13 @@ public class RepairOrder {
 	private String area_electrician; //区域电工
 	private String order_status;  //报修状态：已处理和未处理。当没有派单或者已派工单状态为已延期时，视为未处理
 	private String inputter;   //受理人
+	private long create_time;  
+	public long getCreate_time() {
+		return create_time;
+	}
+	public void setCreate_time(long create_time) {
+		this.create_time = create_time;
+	}
 	private boolean sys_record_status;         //是否删除
 	private Date sys_last_modified_time;    //最后一次修改时间
 	private String sys_hash;
@@ -130,10 +137,11 @@ public class RepairOrder {
 				+ ", powerClient_manager=" + powerClient_manager + ", manager_phone=" + manager_phone
 				+ ", fault_source=" + fault_source + ", fault_device=" + fault_device + ", fault_desc=" + fault_desc
 				+ ", fault_level=" + fault_level + ", area_electrician=" + area_electrician + ", order_status="
-				+ order_status + ", inputter=" + inputter + ", sys_record_status=" + sys_record_status
-				+ ", sys_last_modified_time=" + sys_last_modified_time + ", sys_hash=" + sys_hash + ", sys_create_time="
-				+ sys_create_time + "]";
+				+ order_status + ", inputter=" + inputter + ", create_time=" + create_time + ", sys_record_status="
+				+ sys_record_status + ", sys_last_modified_time=" + sys_last_modified_time + ", sys_hash=" + sys_hash
+				+ ", sys_create_time=" + sys_create_time + "]";
 	}
+
 	
 	
 }

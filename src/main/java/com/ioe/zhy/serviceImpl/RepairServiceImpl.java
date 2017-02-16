@@ -112,12 +112,23 @@ public class RepairServiceImpl implements RepairService {
 			long endTime, int pageIndex, int pageSize) {
 		PageResult<RepairOrder> pageResult=new PageResult<RepairOrder>();
 		try {
+			
+			int startNumber=(pageIndex-1)*pageSize;
+			pageResult.setLength(pageSize);
+			pageResult.setStart(pageIndex);
 			if (electricianRole.equals(role)) {
+				pageResult.setDataList(repairTaskDistributionDao.getHistoryByElectricianId(userId, startTime, endTime, startNumber, pageSize));
+				pageResult.setTotalCount(repairTaskDistributionDao.getHistoryCountsByElectricianId(userId, startTime, endTime));
 				
+				pageResult.setMessage("success");
 			} else if (governorRole.equals(role)) {
 				
+				pageResult.setDataList(repairOrderDao.getHistoryBypowerClientId(powerClientId, startTime, endTime, startNumber, pageSize));
+				pageResult.setTotalCount(repairOrderDao.getHistoryCountsBypowerClientId(powerClientId, startTime, endTime));
+				
+				pageResult.setMessage("success");
 			}
-			pageResult.setMessage("success");
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 			pageResult.setCode(Constants.SERVICE_ERROR);
@@ -165,6 +176,7 @@ public class RepairServiceImpl implements RepairService {
 			repairOrder.setArea_electrician(areaElectrician);
 			repairOrder.setOrder_status("待派发");
 			repairOrder.setSys_hash("12");
+			repairOrder.setCreate_time(System.currentTimeMillis());
 			repairOrderDao.addOrder(repairOrder);
 
 			RepairOrderLog repairOrderLog = new RepairOrderLog();
@@ -503,9 +515,10 @@ public class RepairServiceImpl implements RepairService {
 			String  record,int isRestorePower,String imgUrl) {
 		Result result = new Result();
 		try {
+			if(repairTaskResultDao.getTaskIdIsExist(taskId)==0){
 			long time = System.currentTimeMillis();
 			List<String>  distributionIdList= repairTaskDistributionDao.getDistributionIdByTaskId(taskId);
-			repairTaskDistributionDao.changeDistributionStatusByTaskId(taskId,"已完成");
+			repairTaskDistributionDao.changeDistributionStatusByTaskId(taskId,"待评价");
 			
 			List<RepairDistributionLog> repairDistributionLogList = new ArrayList<>();
 			for(String distributionId:distributionIdList){
@@ -517,7 +530,7 @@ public class RepairServiceImpl implements RepairService {
 				Log.setOperator_time(time);
 				Log.setSys_hash("1");
 				Log.setBefore_status("待完成");
-				Log.setAfter_status("已完成");
+				Log.setAfter_status("待评价");
 				repairDistributionLogList.add(Log);	
 			}
 			repairDistributionLogDao.addDistributionLogList(repairDistributionLogList);
@@ -525,7 +538,7 @@ public class RepairServiceImpl implements RepairService {
 			String orderStatus = repairOrderDao.getOrderStatusById(orderId);
 			RepairOrder order = new RepairOrder();
 			order.setOrder_id(orderId);
-			order.setOrder_status("已完成");
+			order.setOrder_status("待评价");
 			order.setSys_hash("2");
 			repairOrderDao.changeOrder(order);
 
@@ -535,7 +548,7 @@ public class RepairServiceImpl implements RepairService {
 			orderLog.setOperator_id(userId);
 			orderLog.setOperator_time(time);
 			orderLog.setBefore_status(orderStatus);
-			orderLog.setAfter_status("已完成");
+			orderLog.setAfter_status("待评价");
 			orderLog.setSys_hash("2");
 			repairOrderLogDao.addOrderLog(orderLog);
 			
@@ -550,8 +563,11 @@ public class RepairServiceImpl implements RepairService {
 			repairTaskResult.setComplete_time(time);
 			repairTaskResult.setImgUrl(imgUrl);
 			repairTaskResult.setSys_hash("2");
+			
 			repairTaskResultDao.addTaskResult(repairTaskResult);
 			result.setMessage("success");
+				}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setCode(Constants.SERVICE_ERROR);
@@ -567,6 +583,7 @@ public class RepairServiceImpl implements RepairService {
 			String deviceChange, String record, int isRestorePower, String imgUrl) {
 		Result result = new Result();
 		try {
+			if(repairTaskResultDao.getTaskIdIsExist(taskId)==0){
 			long time = System.currentTimeMillis();
 			List<String>  distributionIdList= repairTaskDistributionDao.getDistributionIdByTaskId(taskId);
 			repairTaskDistributionDao.changeDistributionStatusByTaskId(taskId,"已延期");
@@ -614,8 +631,10 @@ public class RepairServiceImpl implements RepairService {
 			repairTaskResult.setComplete_time(time);
 			repairTaskResult.setImgUrl(imgUrl);
 			repairTaskResult.setSys_hash("2");
+			
 			repairTaskResultDao.addTaskResult(repairTaskResult);
 			result.setMessage("success");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setCode(Constants.SERVICE_ERROR);

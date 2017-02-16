@@ -11,5 +11,7 @@ import com.ioe.zhy.entity.RepairTaskResult;
  */
 public interface RepairTaskResultDao {
 	public int addTaskResult(RepairTaskResult repairTaskResult);
+	
+	public int getTaskIdIsExist(String taskId);
 
 }

@@ -123,16 +123,17 @@ public class OrderTest {
 		   
 		   
 		   
-//	   repairService.sendOrder("zhy/t_RepairService:1486621181948", "派发人", false, System.currentTimeMillis()+"", "小小", "老大,老二,老三");
+//	   repairService.sendOrder("zhy/t_RepairService:1486621174952", "派发人", false, System.currentTimeMillis()+"", "小小", "老大,老二,老三");
 //		   System.err.println(  repairService.getTodoListByUserId("年","小小", "用电主管").getDataList().toString());
 //		 System.err.println(repairService.refuseOrder("老三", "zhy/t_RepairTaskDistributionService:1486714979321", "zhy/t_RepairService:1486621181948","不知道什么原因"));
 //		 System.err.println(repairService.updateOrder("zhy/t_RepairService:1486621181948", "er", "laiyuan", "远动"));  
 //		 System.err.println (repairService.getBaseInfoByOrderId("zhy/t_RepairService:1486621082656").getData().toString());
 //	  System.err.println(repairService.signInOrder("老三", "zhy/t_RepairTaskDistributionService:1486714979321", "zhy/t_RepairService:1486621181948", "19523", "ere", "ere"));
-//		   System.err.println(repairService.completeOrder("小", "zhy/t_RrepairTask:1486714979211", "zhy/t_RepairService:1486621181948", "ewr", "er", "era", "rev", 0, "htttp"));	
-//		   System.err.println(repairService.delayOrder("小", "zhy/t_RrepairTask:1486714979211", "zhy/t_RepairService:1486621181948", "ewr", "er", "era", "rev", 0, "htttp"));	
+//		   System.err.println(repairService.completeOrder("小", "zhy/t_RrepairTask:1487231612151", "zhy/t_RepairService:1486621174952", "ewr", "er", "era", "rev", 0, "htttp"));	
+//		   System.err.println(repairService.delayOrder("小", "zhy/t_RrepairTask:1487213381287", "zhy/t_RepairService:1486621181948", "ewr", "er", "era", "rev", 0, "htttp"));	
 		   //				System.err.println( repairTaskDistributionDao.getPeoplesByTaskId("zhy/t_RrepairTask:1486714979211").toString());
-		
+		System.err.println(repairService.getHistoryOrder("老二", "用电电工", "年", 100, 1900000000000000000L,1, 10).getDataList().toString());
+		System.err.println(repairService.getHistoryOrder("老二", "用电电工", "年", 100, 1900000000000000000L,1, 10).getTotalCount().toString());
 //	   System.err.println(repairTaskDistributionDao.getDistributionIdByTaskId("zhy/t_RrepairTask:1486714979211").toString());
 	   }
 }
