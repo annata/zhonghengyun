@@ -7,6 +7,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -29,16 +30,20 @@ import com.ioe.zhy.dao.RepairDistributionLogDao;
 import com.ioe.zhy.dao.RepairOrderDao;
 import com.ioe.zhy.dao.RepairOrderLogDao;
 import com.ioe.zhy.dao.RepairTaskDistributionDao;
+import com.ioe.zhy.dao.RepairTaskResultDao;
 import com.ioe.zhy.dao.RrepairTaskDao;
+import com.ioe.zhy.entity.Electrician;
 import com.ioe.zhy.entity.RepairDistributionLog;
 import com.ioe.zhy.entity.RepairOrder;
 import com.ioe.zhy.entity.RepairOrderLog;
 import com.ioe.zhy.entity.RepairTaskDistribution;
+import com.ioe.zhy.entity.RepairTaskResult;
 import com.ioe.zhy.entity.RrepairTask;
 import com.ioe.zhy.service.RepairLogService;
 import com.ioe.zhy.service.RepairService;
 import com.ioe.zhy.util.DataResult;
 import com.ioe.zhy.util.ListResult;
+import com.ioe.zhy.util.PageResult;
 import com.ioe.zhy.util.Result;
 
 /**
@@ -52,6 +57,11 @@ public class RepairServiceImpl implements RepairService {
 	private static final String SERVICE_NAME = "zhy/t_RepairService";
 
 	private final Logger LOG = LoggerFactory.getLogger(RepairService.class);
+	
+	
+	private static final String electricianRole="用电电工";
+	
+	private static final String governorRole="主管";
 
 	@Resource
 	private RepairOrderDao repairOrderDao;
@@ -67,6 +77,9 @@ public class RepairServiceImpl implements RepairService {
 
 	@Resource
 	private RepairDistributionLogDao repairDistributionLogDao;
+	
+	@Resource
+	private RepairTaskResultDao repairTaskResultDao;
 
 //	 @Resource
 //	 private EmployeeService employeeService;
@@ -78,9 +91,9 @@ public class RepairServiceImpl implements RepairService {
 	public ListResult<RepairOrder> getTodoListByUserId(String companyId, String userId, String role) {
 		ListResult<RepairOrder> listResult = new ListResult<>();
 		try {
-			if ("运维电工".equals(role)) {
+			if (electricianRole.equals(role)) {
 				listResult.setDataList(repairTaskDistributionDao.getTodoLists(userId));
-			} else if ("用电主管".equals(role)) {
+			} else if (governorRole.equals(role)) {
 				listResult.setDataList(repairOrderDao.getTodoOrder(companyId));
 			}
 			listResult.setMessage("success");
@@ -90,6 +103,27 @@ public class RepairServiceImpl implements RepairService {
 			listResult.setMessage("getTodoListByUserId error");
 		}
 		return listResult;
+	}
+	
+	
+	
+	@Override
+	public PageResult<RepairOrder> getHistoryOrder(String userId, String role, String powerClientId, long startTime,
+			long endTime, int pageIndex, int pageSize) {
+		PageResult<RepairOrder> pageResult=new PageResult<RepairOrder>();
+		try {
+			if (electricianRole.equals(role)) {
+				
+			} else if (governorRole.equals(role)) {
+				
+			}
+			pageResult.setMessage("success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			pageResult.setCode(Constants.SERVICE_ERROR);
+			pageResult.setMessage("getTodoListByUserId error");
+		}
+		return pageResult;
 	}
 
 	@Override
@@ -145,7 +179,7 @@ public class RepairServiceImpl implements RepairService {
 			repairOrderLogDao.addOrderLog(repairOrderLog);
 			result.setMessage(OrderId);
 		} catch (Exception e) {
-
+			e.printStackTrace();
 			result.setCode(Constants.SERVICE_ERROR);
 			result.setMessage("addOrder error");
 
@@ -175,7 +209,7 @@ public class RepairServiceImpl implements RepairService {
 			repairOrderDao.changeOrder(repairOrder);
 			result.setMessage("success");
 		} catch (Exception e) {
-
+			e.printStackTrace();
 			result.setCode(Constants.SERVICE_ERROR);
 			result.setMessage("ignoreOrder error");
 
@@ -268,6 +302,7 @@ public class RepairServiceImpl implements RepairService {
 			repairOrderLogDao.addOrderLog(repairOrderLog);
 			result.setMessage("success");
 		} catch (Exception e) {
+			e.printStackTrace();
 			result.setCode(Constants.SERVICE_ERROR);
 			result.setMessage("sendOrder error");
 		}
@@ -317,6 +352,7 @@ public class RepairServiceImpl implements RepairService {
 			}
 			result.setMessage("success");
 		} catch (Exception e) {
+			e.printStackTrace();
 			result.setCode(Constants.SERVICE_ERROR);
 			result.setMessage("receiveOrder error");
 		}
@@ -381,7 +417,7 @@ public class RepairServiceImpl implements RepairService {
 			result.setMessage("success");
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 			result.setCode(Constants.SERVICE_ERROR);
 			result.setMessage("updateOrder error");
 		}
@@ -397,6 +433,7 @@ public class RepairServiceImpl implements RepairService {
 			dataResult.setMessage("success");
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			dataResult.setCode(Constants.SERVICE_ERROR);
 			dataResult.setMessage("getBaseInfoByOrderId error");
 		}
@@ -452,6 +489,7 @@ public class RepairServiceImpl implements RepairService {
 			}
 			result.setMessage("success");
 		} catch (Exception e) {
+			e.printStackTrace();
 			result.setCode(Constants.SERVICE_ERROR);
 			result.setMessage("signInOrder error");
 		}
@@ -460,25 +498,197 @@ public class RepairServiceImpl implements RepairService {
 	}
 
 	
+	@Override
+	public Result completeOrder(String userId,String taskId,String orderId,String faultReason,String faultDevice,String deviceChange,
+			String  record,int isRestorePower,String imgUrl) {
+		Result result = new Result();
+		try {
+			long time = System.currentTimeMillis();
+			List<String>  distributionIdList= repairTaskDistributionDao.getDistributionIdByTaskId(taskId);
+			repairTaskDistributionDao.changeDistributionStatusByTaskId(taskId,"已完成");
+			
+			List<RepairDistributionLog> repairDistributionLogList = new ArrayList<>();
+			for(String distributionId:distributionIdList){
+				Thread.sleep(1);
+				RepairDistributionLog Log = new RepairDistributionLog();
+				Log.setLog_id(ZRIGenerater.generate("zhy/t_RepairDistributionLogService"));
+				Log.setDistribution_id(distributionId);
+				Log.setOperator_id(userId);
+				Log.setOperator_time(time);
+				Log.setSys_hash("1");
+				Log.setBefore_status("待完成");
+				Log.setAfter_status("已完成");
+				repairDistributionLogList.add(Log);	
+			}
+			repairDistributionLogDao.addDistributionLogList(repairDistributionLogList);
+			
+			String orderStatus = repairOrderDao.getOrderStatusById(orderId);
+			RepairOrder order = new RepairOrder();
+			order.setOrder_id(orderId);
+			order.setOrder_status("已完成");
+			order.setSys_hash("2");
+			repairOrderDao.changeOrder(order);
+
+			RepairOrderLog orderLog = new RepairOrderLog();
+			orderLog.setLog_id(ZRIGenerater.generate("zhy/t_RepairLogService"));
+			orderLog.setOrder_id(orderId);
+			orderLog.setOperator_id(userId);
+			orderLog.setOperator_time(time);
+			orderLog.setBefore_status(orderStatus);
+			orderLog.setAfter_status("已完成");
+			orderLog.setSys_hash("2");
+			repairOrderLogDao.addOrderLog(orderLog);
+			
+			RepairTaskResult repairTaskResult=new RepairTaskResult();
+			repairTaskResult.setResult_id(ZRIGenerater.generate("zhy/t_RepairTaskResultService"));
+			repairTaskResult.setTask_id(taskId);
+			repairTaskResult.setFault_device(faultDevice);
+			repairTaskResult.setFault_reason(faultReason);
+			repairTaskResult.setDevice_change(deviceChange);
+			repairTaskResult.setRecord(record);
+			repairTaskResult.setIs_restore_power(isRestorePower);
+			repairTaskResult.setComplete_time(time);
+			repairTaskResult.setImgUrl(imgUrl);
+			repairTaskResult.setSys_hash("2");
+			repairTaskResultDao.addTaskResult(repairTaskResult);
+			result.setMessage("success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setCode(Constants.SERVICE_ERROR);
+			result.setMessage("completeOrder error");
+		}
+
+		return result;
+	}
+	
+	
+	@Override
+	public Result delayOrder(String userId, String taskId, String orderId, String faultReason, String faultDevice,
+			String deviceChange, String record, int isRestorePower, String imgUrl) {
+		Result result = new Result();
+		try {
+			long time = System.currentTimeMillis();
+			List<String>  distributionIdList= repairTaskDistributionDao.getDistributionIdByTaskId(taskId);
+			repairTaskDistributionDao.changeDistributionStatusByTaskId(taskId,"已延期");
+			
+			List<RepairDistributionLog> repairDistributionLogList = new ArrayList<>();
+			for(String distributionId:distributionIdList){
+				Thread.sleep(1);
+				RepairDistributionLog Log = new RepairDistributionLog();
+				Log.setLog_id(ZRIGenerater.generate("zhy/t_RepairDistributionLogService"));
+				Log.setDistribution_id(distributionId);
+				Log.setOperator_id(userId);
+				Log.setOperator_time(time);
+				Log.setSys_hash("1");
+				Log.setBefore_status("待完成");
+				Log.setAfter_status("已延期");
+				repairDistributionLogList.add(Log);	
+			}
+			repairDistributionLogDao.addDistributionLogList(repairDistributionLogList);
+			
+			String orderStatus = repairOrderDao.getOrderStatusById(orderId);
+			RepairOrder order = new RepairOrder();
+			order.setOrder_id(orderId);
+			order.setOrder_status("请延期");
+			order.setSys_hash("2");
+			repairOrderDao.changeOrder(order);
+
+			RepairOrderLog orderLog = new RepairOrderLog();
+			orderLog.setLog_id(ZRIGenerater.generate("zhy/t_RepairLogService"));
+			orderLog.setOrder_id(orderId);
+			orderLog.setOperator_id(userId);
+			orderLog.setOperator_time(time);
+			orderLog.setBefore_status(orderStatus);
+			orderLog.setAfter_status("请延期");
+			orderLog.setSys_hash("2");
+			repairOrderLogDao.addOrderLog(orderLog);
+			
+			RepairTaskResult repairTaskResult=new RepairTaskResult();
+			repairTaskResult.setResult_id(ZRIGenerater.generate("zhy/t_RepairTaskResultService"));
+			repairTaskResult.setTask_id(taskId);
+			repairTaskResult.setFault_device(faultDevice);
+			repairTaskResult.setFault_reason(faultReason);
+			repairTaskResult.setDevice_change(deviceChange);
+			repairTaskResult.setRecord(record);
+			repairTaskResult.setIs_restore_power(isRestorePower);
+			repairTaskResult.setComplete_time(time);
+			repairTaskResult.setImgUrl(imgUrl);
+			repairTaskResult.setSys_hash("2");
+			repairTaskResultDao.addTaskResult(repairTaskResult);
+			result.setMessage("success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setCode(Constants.SERVICE_ERROR);
+			result.setMessage("completeOrder error");
+		}
+
+		return result;
+	}
+	
+	
 
 	@Override
 	public ListResult<Map<String, Object>> getContactsByOrderId(String orderId) {
 		ListResult<Map<String, Object>> listResult=new ListResult<Map<String, Object>>();
 		try {
-			String taskId=  repairTaskDao.getNewstaskIdByOrderId(orderId);
-			List<Map<String, String>> list=repairTaskDistributionDao.getPeoplesByTaskId(taskId);
-			List<Map<String,String>> rslist=new ArrayList<Map<String,String>>();
-			
-			for(Map<String, String> map:list){
-//				employeeService.getEmployeeById(map.get("electrician_id")+"");
-			}
-			
-			
+//			String taskId=  repairTaskDao.getNewstaskIdByOrderId(orderId);
+//			List<RepairTaskDistribution> list=repairTaskDistributionDao.getPeoplesByTaskId(taskId);
+//			List<Map<String,Object>> rslist=new ArrayList<Map<String,Object>>();
+//			
+//			for(RepairTaskDistribution task:list){
+//				Employee employee = employeeService.getEmployeeById(task.getElectrician_id()).getData();
+//				Map<String,Object> eMap=new HashMap<>();
+//				if(task.isIs_primary()){	
+//				eMap.put("type","responser");
+//				eMap.put("name", employee.getName());
+//				eMap.put("phone", employee.getCellphone());
+//				rslist.add(eMap);
+//				}else{
+//				eMap.put("type","cooperator");
+//				eMap.put("name", employee.getName());
+//				eMap.put("phone", employee.getCellphone());	
+//				rslist.add(eMap);
+//				}
+//			}
+//			
+//			RepairOrder repairOrder=   repairOrderDao.getOrderById(orderId);   
+//			Map<String,Object> eMap=new HashMap<>();
+//			eMap.put("type","manager");
+//			eMap.put("name", repairOrder.getPowerClient_manager());
+//			eMap.put("phone", repairOrder.getManager_phone());
+//			rslist.add(eMap);
+//			
+//			Employee inputter = employeeService.getEmployeeById(repairOrder.getInputter()).getData();
+//			Map<String,Object> cMap=new HashMap<>();
+//			cMap.put("type","inputter");
+//			cMap.put("name", inputter.getName());
+//			cMap.put("phone", inputter.getCellphone());
+//			rslist.add(cMap);
+//			
+//			Employee sender = employeeService.getEmployeeById(repairTaskDao.getSenderByOrderId(taskId)).getData();
+//			Map<String,Object> dMap=new HashMap<>();
+//			dMap.put("type","sender");
+//			dMap.put("name", sender.getName());
+//			dMap.put("phone", sender.getCellphone());
+//			rslist.add(dMap);
+//			
+//			listResult.setDataList(rslist);
 			listResult.setMessage("success");
+			
+			
 		} catch (Exception e) {
+			e.printStackTrace();
 			listResult.setCode(Constants.SERVICE_ERROR);
 			listResult.setMessage("getContactsByOrderId error");
 		}	
 		return listResult;
 	}
+
+
+
+	
+	
+
+
+
 }

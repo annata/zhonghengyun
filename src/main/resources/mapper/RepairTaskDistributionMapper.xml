@@ -47,13 +47,25 @@ in ('待接单','待签到','待完成'))
         
  	<!-- 查询指定任务的人数 -->
  	<select id="getTaskCounts" parameterType="String" resultType="int">
-    select count(distribution_id) from t_repair_task_distribution where  sys_record_status=0  and 
+    select count(c) from t_repair_task_distribution where  sys_record_status=0  and 
     task_id =(select task_id from t_repair_task_distribution where distribution_id=#{distribution_id}) 
     </select>
  
  	<!-- 根据任务id获取相关人员 -->
- 	<select id="getPeoplesByTaskId" parameterType="String" resultType="map">
- 	select electrician_id,is_primary  from   t_repair_task_distribution where  sys_record_status=0 and task_id=#{task_id}
+ 	<select id="getPeoplesByTaskId" parameterType="String" resultType="com.ioe.zhy.entity.RepairTaskDistribution">
+ 	select * from   t_repair_task_distribution where  sys_record_status=0 and task_id=#{task_id}
  	</select>
+ 	
+ 	<!-- 根据TaskId获取相关的DistributionId -->
+ 	<select id="getDistributionIdByTaskId" parameterType="String" resultType="String">
+ 	select distribution_id from t_repair_task_distribution where task_id=#{task_id}
+ 	</select>
+ 	
+ 	
+ 	<!-- 根据TaskId更改相应任务状态 -->
+ 	<update id="changeDistributionStatusByTaskId" >
+ 	update t_repair_task_distribution set distribution_status=#{distribution_status} where task_id=#{task_id}
+ 	</update>
+ 	
         
  </mapper>

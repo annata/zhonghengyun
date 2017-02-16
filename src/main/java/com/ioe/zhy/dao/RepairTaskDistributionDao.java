@@ -6,6 +6,8 @@ package com.ioe.zhy.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ioe.zhy.entity.RepairOrder;
 import com.ioe.zhy.entity.RepairTaskDistribution;
 
@@ -22,7 +24,11 @@ public interface RepairTaskDistributionDao {
 	public int getOrderStatusById(String distribution_id);
 	public int getOrderById(String distribution_id);
 	
-	public List<Map<String, String>> getPeoplesByTaskId(String task_id);
+	public List<RepairTaskDistribution> getPeoplesByTaskId(String task_id);
+	
+	public List<String> getDistributionIdByTaskId(String task_id);
+	
+	public int changeDistributionStatusByTaskId(@Param("task_id")String task_id,@Param("distribution_status")String distribution_status);
 	
 
 }

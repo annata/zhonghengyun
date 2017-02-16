@@ -45,9 +45,11 @@ public class AreaServiceImpl implements AreaService {
             	result1.setMessage("success");
             	return result1;}
         } catch (Exception e) {
+              e.printStackTrace();	
+        	  result1.setCode(Constants.SERVICE_ERROR);
+              result1.setMessage("error");
         }
-        result1.setCode(Constants.SERVICE_ERROR);
-        result1.setMessage("error");
+      
         return result1;
     }
 
@@ -64,9 +66,11 @@ public class AreaServiceImpl implements AreaService {
             	result1.setMessage("success");
             	return result1;}
         } catch (Exception e) {
+        	e.printStackTrace();
+        	 result1.setCode(Constants.SERVICE_ERROR);
+             result1.setMessage("error");
         }
-        result1.setCode(Constants.SERVICE_ERROR);
-        result1.setMessage("error");
+       
         return result1;
     }
 
@@ -82,9 +86,11 @@ public class AreaServiceImpl implements AreaService {
             return result1;
             }
         } catch (Exception e) {
+        	e.printStackTrace();
+        	result1.setCode(Constants.SERVICE_ERROR);
+            result1.setMessage("error");
         }
-        result1.setCode(Constants.SERVICE_ERROR);
-        result1.setMessage("error");
+        
         return result1;
     }
 

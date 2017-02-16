@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators.StringIdGenerator;
 import com.ioe.zhy.entity.RepairOrder;
 import com.ioe.zhy.util.DataResult;
 import com.ioe.zhy.util.ListResult;
+import com.ioe.zhy.util.PageResult;
 import com.ioe.zhy.util.Result;
 
 /**
@@ -28,6 +29,21 @@ public interface RepairService {
 	 * @return   
 	 */
 	public  ListResult<RepairOrder>   getTodoListByUserId(String companyId,String userId,String role);
+	
+	/**
+	 * 查询历史工单
+	 * @Title: getHistoryOrder 
+	 * @param userId  用户的id
+	 * @param role   角色
+	 * @param powerClientId  用电客户的id
+	 * @param startTime  开始时间 
+	 * @param endTime  结束时间
+	 * @param pageIndex  第几页
+	 * @param pageSize  每页大小
+	 * @return   
+	 * @throws
+	 */
+	public PageResult<RepairOrder> getHistoryOrder(String userId,String role,String powerClientId,long startTime,long endTime,int pageIndex,int pageSize);
 	
 	
 	/**
@@ -135,6 +151,46 @@ public interface RepairService {
 	 */
 	public Result signInOrder(String userId,String distributionId,String orderId,String signInLocation,String signInAddress,String signInImg);
 
+	
+
+	
+	/**
+	 * 结果录入-完成
+	 * @Title: completeOrder 
+	 * @param userId  用户的id
+	 * @param taskId  任务id
+	 * @param orderId  工单Id
+	 * @param faultReason  故障原因
+	 * @param faultDevice  故障设备
+	 * @param deviceChange 配件更换
+	 * @param record  抢修记录
+	 * @param isRestorePower  是否恢复供电
+	 * @param imgUrl  图片地址
+	 * @return   
+	 * @throws
+	 */
+	public Result completeOrder(String userId,String taskId,String orderId,String faultReason,String faultDevice,String deviceChange,
+			String  record,int isRestorePower,String imgUrl);
+	
+	
+	/**
+	 * 结果录入-延期
+	 * @Title: completeOrder 
+	 * @param userId  用户的id
+	 * @param taskId  任务id
+	 * @param orderId  工单Id
+	 * @param faultReason  故障原因
+	 * @param faultDevice  故障设备
+	 * @param deviceChange 配件更换
+	 * @param record  抢修记录
+	 * @param isRestorePower  是否恢复供电
+	 * @param imgUrl  图片地址
+	 * @return   
+	 * @throws
+	 */
+	public Result delayOrder(String userId,String taskId,String orderId,String faultReason,String faultDevice,String deviceChange,
+			String  record,int isRestorePower,String imgUrl);
+	
 	
 	/**
 	 * 根据工单查询通讯录

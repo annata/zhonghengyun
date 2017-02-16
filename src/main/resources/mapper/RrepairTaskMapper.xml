@@ -13,5 +13,12 @@
      <select id="getNewstaskIdByOrderId" parameterType="String" resultType="String">
      select task_id from t_repair_task t where not exists(select 1 from t_repair_task c where c.send_time>t.send_time )  and order_id=#{order_id} and sys_record_status=0
      </select>   
+     
+     <!-- 获取指定任务的派单人 -->
+       <select id="getSenderByOrderId" parameterType="String" resultType="java.util.List">
+     select sender from t_repair_task t where  and  task_id={#task_id} sys_record_status=0
+     </select>   
+     
+   
         
  </mapper>

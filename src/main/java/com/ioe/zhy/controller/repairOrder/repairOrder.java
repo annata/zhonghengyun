@@ -28,8 +28,8 @@ public class repairOrder {
     
     @RequestMapping("/addOrder")
     @ResponseBody
-    public Object addOrder(String userId,String powerClientId,String powerClientManager,String managePhone,String faultSource,String faultDevice,String faultDesc,String faultLevel,String areaElectrician){
-    	Result result=RepairService.addOrder(userId,powerClientId, powerClientManager, managePhone, faultSource, faultDevice, faultDesc, faultLevel, areaElectrician);
+    public Object addOrder(String orderId){
+    	Result result=RepairService.getContactsByOrderId(orderId);
   
         return result;
     }

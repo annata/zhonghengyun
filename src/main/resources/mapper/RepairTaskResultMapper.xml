@@ -4,6 +4,13 @@
         
  <mapper namespace="com.ioe.zhy.dao.RepairTaskResultDao">
  
+ 	<insert id="addTaskResult" parameterType="com.ioe.zhy.entity.RepairTaskResult">
+ 	insert into t_repair_task_result(result_id,task_id,fault_reason,fault_device,device_change
+ 	,record,is_restore_power,imgUrl,complete_time,sys_create_time,sys_hash) values(#{result_id},
+ 	#{task_id},#{fault_reason},#{fault_device},#{device_change},#{record},#{is_restore_power},
+ 	#{imgUrl},#{complete_time},#{sys_create_time},#{sys_hash})
+ 	</insert>
+ 
  
         
  </mapper>

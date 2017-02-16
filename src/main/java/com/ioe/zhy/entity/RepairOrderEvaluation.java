@@ -10,28 +10,28 @@ import java.util.Date;
  *
  */
 public class RepairOrderEvaluation {
-	private String evaluation_id;  //工单评价id
-	private String order_id;  //对应的任务编号
+	private String evaluationId;  //工单评价id
+	private String orderId;  //对应的任务编号
 	private int attitude;  //服务态度
 	private int  speed;       //服务速度
 	private int quality;     //服务质量
 	private int total;  //总体评价
 	private String advice;  //宝贵意见
-	private boolean sys_record_status;         //是否删除
-	private Date sys_last_modified_time;    //最后一次修改时间
-	private String sys_hash;
-	private Date  sys_create_time;           //添加时间
-	public String getEvaluation_id() {
-		return evaluation_id;
+	private boolean sysRecordStatus;         //是否删除
+	private Date sysLastModifiedTime;    //最后一次修改时间
+	private String sysHash;
+	private Date  sysCreateTime;           //添加时间
+	public String getEvaluationId() {
+		return evaluationId;
 	}
-	public void setEvaluation_id(String evaluation_id) {
-		this.evaluation_id = evaluation_id;
+	public void setEvaluationId(String evaluationId) {
+		this.evaluationId = evaluationId;
 	}
-	public String getOrder_id() {
-		return order_id;
+	public String getOrderId() {
+		return orderId;
 	}
-	public void setOrder_id(String order_id) {
-		this.order_id = order_id;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 	public int getAttitude() {
 		return attitude;
@@ -63,38 +63,38 @@ public class RepairOrderEvaluation {
 	public void setAdvice(String advice) {
 		this.advice = advice;
 	}
-	public boolean isSys_record_status() {
-		return sys_record_status;
+	public boolean isSysRecordStatus() {
+		return sysRecordStatus;
 	}
-	public void setSys_record_status(boolean sys_record_status) {
-		this.sys_record_status = sys_record_status;
+	public void setSysRecordStatus(boolean sysRecordStatus) {
+		this.sysRecordStatus = sysRecordStatus;
 	}
-	public Date getSys_last_modified_time() {
-		return sys_last_modified_time;
+	public Date getSysLastModifiedTime() {
+		return sysLastModifiedTime;
 	}
-	public void setSys_last_modified_time(Date sys_last_modified_time) {
-		this.sys_last_modified_time = sys_last_modified_time;
+	public void setSysLastModifiedTime(Date sysLastModifiedTime) {
+		this.sysLastModifiedTime = sysLastModifiedTime;
 	}
-	public String getSys_hash() {
-		return sys_hash;
+	public String getSysHash() {
+		return sysHash;
 	}
-	public void setSys_hash(String sys_hash) {
-		this.sys_hash = sys_hash;
+	public void setSysHash(String sysHash) {
+		this.sysHash = sysHash;
 	}
-	public Date getSys_create_time() {
-		return sys_create_time;
+	public Date getSysCreateTime() {
+		return sysCreateTime;
 	}
-	public void setSys_create_time(Date sys_create_time) {
-		this.sys_create_time = sys_create_time;
+	public void setSysCreateTime(Date sysCreateTime) {
+		this.sysCreateTime = sysCreateTime;
 	}
 	@Override
 	public String toString() {
-		return "RepairOrderEvaluation [evaluation_id=" + evaluation_id + ", order_id=" + order_id + ", attitude="
-				+ attitude + ", speed=" + speed + ", quality=" + quality + ", total=" + total + ", advice=" + advice
-				+ ", sys_record_status=" + sys_record_status + ", sys_last_modified_time=" + sys_last_modified_time
-				+ ", sys_hash=" + sys_hash + ", sys_create_time=" + sys_create_time + "]";
+		return "RepairOrderEvaluation [evaluationId=" + evaluationId + ", orderId=" + orderId + ", attitude=" + attitude
+				+ ", speed=" + speed + ", quality=" + quality + ", total=" + total + ", advice=" + advice
+				+ ", sysRecordStatus=" + sysRecordStatus + ", sysLastModifiedTime=" + sysLastModifiedTime + ", sysHash="
+				+ sysHash + ", sysCreateTime=" + sysCreateTime + "]";
 	}
-	
+
 	
 
 }

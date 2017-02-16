@@ -9,14 +9,15 @@
 
     <dubbo:application name="watchManage"/>
 
-    <dubbo:registry protocol="zookeeper" address="10.1.170.201:2181,10.1.170.202:2181,10.1.170.203:2181"/>
+<!--     <dubbo:registry protocol="zookeeper" address="10.1.170.201:2181,10.1.170.202:2181,10.1.170.203:2181"/> -->
+	<dubbo:registry protocol="zookeeper" address="10.1.170.211:2181,10.1.170.212:2181,10.1.170.213:2181"/>
 	<!-- 参照 http://wiki.smarteoc.com/doku.php?id=wiki:dubbo-port 新建项目累加-->
     <dubbo:protocol name="dubbo"  port="20170" />
 	
     <dubbo:service  interface="com.ioe.zhy.service.WatchManageService" version="1.0.0" timeout="30000" ref="watchManageService" />
 	
 	<dubbo:service interface="com.ioe.zhy.service.ProjectService" version="1.0.0" timeout="30000" ref="projectService" />
-	
+	<dubbo:service interface="com.ioe.zhy.service.RepairService" version="1.0.0" timeout="30000" ref="repairService" />
 	
 	<dubbo:reference interface="com.ioe.client.service.NoticePushService" id="noticePushService"  check="false" />
  	 <dubbo:reference interface="com.ioe.customer.client.service.EmployeeService" id="employeeService"  check="false"/> 

@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.annotation.Resource;
@@ -128,6 +129,10 @@ public class OrderTest {
 //		 System.err.println(repairService.updateOrder("zhy/t_RepairService:1486621181948", "er", "laiyuan", "远动"));  
 //		 System.err.println (repairService.getBaseInfoByOrderId("zhy/t_RepairService:1486621082656").getData().toString());
 //	  System.err.println(repairService.signInOrder("老三", "zhy/t_RepairTaskDistributionService:1486714979321", "zhy/t_RepairService:1486621181948", "19523", "ere", "ere"));
-	  System.err.println(repairTaskDistributionDao.getPeoplesByTaskId("zhy/t_RrepairTask:1486714979211").toString());
+//		   System.err.println(repairService.completeOrder("小", "zhy/t_RrepairTask:1486714979211", "zhy/t_RepairService:1486621181948", "ewr", "er", "era", "rev", 0, "htttp"));	
+//		   System.err.println(repairService.delayOrder("小", "zhy/t_RrepairTask:1486714979211", "zhy/t_RepairService:1486621181948", "ewr", "er", "era", "rev", 0, "htttp"));	
+		   //				System.err.println( repairTaskDistributionDao.getPeoplesByTaskId("zhy/t_RrepairTask:1486714979211").toString());
+		
+//	   System.err.println(repairTaskDistributionDao.getDistributionIdByTaskId("zhy/t_RrepairTask:1486714979211").toString());
 	   }
 }

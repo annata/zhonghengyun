@@ -51,7 +51,7 @@
     select *  from t_repair_order 	where  order_id=#{order_id} 
     </select>
     
- 	<!-- 获取相关人员信息 -->
+
         
     
         

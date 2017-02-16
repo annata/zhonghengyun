@@ -106,7 +106,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 			watchRecordDao.addWatchRecordList(list);
 			 result.setMessage("success");
 		} catch (Exception e) {
-		
+			e.printStackTrace();
 			LOG.error("addWatchPlan error");
 			result.setCode(Constants.SERVICE_ERROR);
 			result.setMessage("addWatchPlan error");
@@ -197,7 +197,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 			}
 			result.setMessage("success");
 		} catch (Exception e) {
-		
+			e.printStackTrace();
 			LOG.error("updateWatchPlan error");
 			result.setCode(Constants.SERVICE_ERROR);
 			result.setMessage("updateWatchPlan error");
@@ -232,7 +232,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 		try {
 			watchRecordDao.beginWatch(planId, userId, System.currentTimeMillis());
 			} catch (Exception e) {
-		
+			e.printStackTrace();
 			LOG.error("beginWatch error");
 			result.setCode(Constants.SERVICE_ERROR);
 			result.setMessage("beginWatch error");
@@ -249,7 +249,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 		try {
 			watchRecordDao.completeWatch(planId, userId, System.currentTimeMillis(), content);
 			} catch (Exception e) {
-			
+			e.printStackTrace();
 			LOG.error("completeWatch error");
 			result.setCode(Constants.SERVICE_ERROR);
 			result.setMessage("completeWatch error");
@@ -311,7 +311,7 @@ public class WatchManageServiceImpl implements WatchManageService{
 	public  DataResult<String> getWatchRecordByPlanId(String planId) {
 		DataResult<String> dataResult=new DataResult<>();
 		try {
-			;
+			
 			dataResult.setData(watchRecordDao.getWatchRecordByPlanId(planId).getContent());
 		dataResult.setMessage("success");
 		} catch (Exception e) {

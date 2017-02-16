@@ -47,7 +47,7 @@ public class ProjectServiceImpl implements ProjectService {
 				return result1;
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 			result1.setCode(Constants.SERVICE_ERROR);
 			result1.setMessage("error");
 		}
@@ -70,7 +70,7 @@ public class ProjectServiceImpl implements ProjectService {
 				return result1;
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 			result1.setCode(Constants.SERVICE_ERROR);
 			result1.setMessage("error");
 		}
@@ -85,7 +85,7 @@ public class ProjectServiceImpl implements ProjectService {
 		List<Project> list=	projectDao.getProjectById(recordId);
 			result.setDataList(list);
 		} catch (Exception e) {
-
+			e.printStackTrace();
 			result.setCode(Constants.SERVICE_ERROR);
 			result.setMessage("error");
 		}
@@ -104,7 +104,7 @@ public class ProjectServiceImpl implements ProjectService {
 			pageResult.setTotalCount(projectDao.getProjectCount(status, companyId));
 			pageResult.setMessage("success");
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 			pageResult.setCode(Constants.SERVICE_ERROR);
 			pageResult.setMessage("error");
 		}
