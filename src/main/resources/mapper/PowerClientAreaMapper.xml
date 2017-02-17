@@ -24,4 +24,11 @@
     <select id="get" parameterType="com.ioe.zhy.entity.PowerClientArea" resultType="int">
         SELECT count(id) FROM r_powerClient_area WHERE powerClient_id=#{powerClient_id} AND area_id=#{area_id} AND sys_record_status=0  
     </select>
+    
+    <!-- 获取区域下的用电客户 -->
+    <select id="getPowerClientIdByAreaId" parameterType="String" resultType="String">
+
+     select powerClient_id from r_powerClient_area where area_id=#{area_id} order by run_capacity desc
+    </select>
+    
 </mapper>

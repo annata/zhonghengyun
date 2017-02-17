@@ -1,6 +1,9 @@
 package com.ioe.zhy.dao;
 
 import com.ioe.zhy.entity.PowerClientArea;
+
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -14,4 +17,6 @@ public interface PowerClientAreaDao {
     int get(PowerClientArea powerClientArea);
 
     boolean deleteByArea(@Param("area_id")String area_id);
+    
+    public  List<String> getPowerClientIdByAreaId();
 }
